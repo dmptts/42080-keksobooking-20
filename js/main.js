@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 var USER_INDEXES = [1, 2, 3, 4, 5, 6, 7, 8];
 var OFFER_TITLES = [
@@ -28,9 +28,12 @@ var OFFER_PHOTOS = [
   'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
-]
+];
 
-var objArr = [];
+var pinsDataArr = [];
+var pinTemplate = document.querySelector('#pin').content;
+var map = document.querySelector('.map__pins');
+var fragment = document.createDocumentFragment();
 
 var getRandomInteger = function (min, max) {
   return Math.floor(min + Math.random() * (max + 1 - min));
@@ -41,7 +44,7 @@ var getAndRemoveArrItem = function (arr) {
   var randomIndex = arr[randomInt];
   arr.splice(randomInt, 1);
   return randomIndex;
-}
+};
 
 var getRandomArr = function (arr) {
   var arrCopy = arr.slice();
@@ -53,14 +56,14 @@ var getRandomArr = function (arr) {
   }
 
   return randomArr;
-}
+};
 
 var getBodyWidthNum = function () {
   var pageBody = document.querySelector('body');
   var pageBodyWidth = getComputedStyle(pageBody).width;
   var pageBodyWidthNum = Number(pageBodyWidth.slice(0, -2));
   return pageBodyWidthNum;
-}
+};
 
 var generateObjData = function () {
   return {
@@ -82,16 +85,38 @@ var generateObjData = function () {
     },
 
     'location': {
-      'x': getRandomInteger(0, getBodyWidthNum()),
-      'y':getRandomInteger(130, 630)
+      'x': getRandomInteger(25, getBodyWidthNum() - 25),
+      'y': getRandomInteger(130, 630)
     }
-  }
-}
+  };
+};
 
-var generateObjArr = function (objQuantity) {
+var generatePinsDataArr = function (objQuantity) {
   for (var i = 0; i < objQuantity; i++) {
-    objArr[i] = generateObjData();
+    pinsDataArr[i] = generateObjData();
   }
-}
+};
 
-generateObjArr(8);
+var createPin = function (pinObj) {
+  var pinElement = pinTemplate.cloneNode(true);
+  var pin = pinElement.querySelector('.map__pin');
+  var pinImg = pinElement.querySelector('.map__pin img');
+
+  pin.setAttribute('style', 'top: ' + (pinObj.location.y - 70) + 'px; left: ' + (pinObj.location.x - 25) + 'px;');
+  pinImg.setAttribute('src', pinObj.author.avatar);
+  pinImg.setAttribute('alt', pinObj.offer.title);
+
+  return pinElement;
+};
+
+var renderPins = function (pinsQuantity) {
+  generatePinsDataArr(pinsQuantity);
+
+  for (var i = 0; i < pinsDataArr.length; i++) {
+    fragment.appendChild(createPin(pinsDataArr[i]));
+  }
+
+  map.appendChild(fragment);
+};
+
+renderPins(8);
