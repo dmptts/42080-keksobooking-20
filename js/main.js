@@ -1,6 +1,5 @@
 'use strict';
 
-var USER_INDEXES = [1, 2, 3, 4, 5, 6, 7, 8];
 var OFFER_TITLES = [
   '2-комн. кв., 57,45 м², 20/24 этаж',
   '2-комн. кв., 76,85 м², 3/9 этаж',
@@ -29,10 +28,15 @@ var OFFER_PHOTOS = [
   'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
 ];
+var COORDINATES_X_MIN = 130;
+var COORDINATES_X_MAX = 630;
+
 
 var pinsDataArr = [];
 var pinTemplate = document.querySelector('#pin').content;
-var map = document.querySelector('.map__pins');
+var map = document.querySelector('.map');
+var mapWidth = Number(getComputedStyle(map).width.slice(0, -2));
+var pinsBlock = document.querySelector('.map__pins');
 var fragment = document.createDocumentFragment();
 
 var getRandomInteger = function (min, max) {
@@ -58,22 +62,15 @@ var getRandomArr = function (arr) {
   return randomArr;
 };
 
-var getBodyWidthNum = function () {
-  var pageBody = document.querySelector('body');
-  var pageBodyWidth = getComputedStyle(pageBody).width;
-  var pageBodyWidthNum = Number(pageBodyWidth.slice(0, -2));
-  return pageBodyWidthNum;
-};
-
-var generateObjData = function () {
+var generateObjData = function (index) {
   return {
     'author': {
-      'avatar': 'img/avatars/user0' + getAndRemoveArrItem(USER_INDEXES) + '.png'
+      'avatar': 'img/avatars/user0' + (index + 1) + '.png'
     },
 
     'offer': {
       'title': OFFER_TITLES[getRandomInteger(0, OFFER_TITLES.length - 1)],
-      'price': Number(getRandomInteger(5, 50) + '00000'),
+      'price': getRandomInteger(5000, 50000),
       'type': OFFER_TYPES[getRandomInteger(0, OFFER_TYPES.length - 1)],
       'rooms': getRandomInteger(1, 3),
       'guests': getRandomInteger(1, 50),
@@ -85,15 +82,15 @@ var generateObjData = function () {
     },
 
     'location': {
-      'x': getRandomInteger(25, getBodyWidthNum() - 25),
-      'y': getRandomInteger(130, 630)
+      'x': getRandomInteger(25, mapWidth - 25),
+      'y': getRandomInteger(COORDINATES_X_MIN, COORDINATES_X_MAX)
     }
   };
 };
 
 var generatePinsDataArr = function (objQuantity) {
   for (var i = 0; i < objQuantity; i++) {
-    pinsDataArr[i] = generateObjData();
+    pinsDataArr[i] = generateObjData(i);
   }
 };
 
@@ -102,9 +99,10 @@ var createPin = function (pinObj) {
   var pin = pinElement.querySelector('.map__pin');
   var pinImg = pinElement.querySelector('.map__pin img');
 
-  pin.setAttribute('style', 'top: ' + (pinObj.location.y - 70) + 'px; left: ' + (pinObj.location.x - 25) + 'px;');
-  pinImg.setAttribute('src', pinObj.author.avatar);
-  pinImg.setAttribute('alt', pinObj.offer.title);
+  pin.style.top = pinObj.location.y - 70 + 'px';
+  pin.style.left = pinObj.location.x - 25 + 'px';
+  pinImg.src = pinObj.author.avatar;
+  pinImg.alt = pinObj.offer.title;
 
   return pinElement;
 };
@@ -116,7 +114,7 @@ var renderPins = function (pinsQuantity) {
     fragment.appendChild(createPin(pinsDataArr[i]));
   }
 
-  map.appendChild(fragment);
+  pinsBlock.appendChild(fragment);
 };
 
 renderPins(8);
