@@ -99,8 +99,8 @@ var createPin = function (pinObj) {
   var pin = pinElement.querySelector('.map__pin');
   var pinImg = pinElement.querySelector('.map__pin img');
 
-  pin.style.top = pinObj.location.y - 70 + 'px';
-  pin.style.left = pinObj.location.x - 25 + 'px';
+  pin.style.top = pinObj.location.y - pin.offsetHeight + 'px';
+  pin.style.left = pinObj.location.x - (pin.offsetWidth / 2) + 'px';
   pinImg.src = pinObj.author.avatar;
   pinImg.alt = pinObj.offer.title;
 
