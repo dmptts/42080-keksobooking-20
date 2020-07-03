@@ -127,24 +127,22 @@ var renderPins = function (pinsQuantity) {
   pinsBlock.appendChild(pinFragment);
 };
 
+var checkFeatureAvailabililty = function (popupFeatureItems, flatObj, index) {
+  for (var j = 0; j < flatObj.offer.features.length; j++) {
+    if (popupFeatureItems[index].classList.contains('popup__feature--' + flatObj.offer.features[j])) {
+      return true;
+    }
+  }
+
+  return false;
+};
+
 var filterFeatures = function (popupElement, flatObj) {
   var popupFeaturesList = popupElement.querySelectorAll('.popup__features');
   var popupFeatureItems = popupElement.querySelectorAll('.popup__feature');
 
-  var checkFeatureAvailabililty = function () {
-    for (var j = 0; j < flatObj.offer.features.length; j++) {
-      if (popupFeatureItems[i].classList.contains('popup__feature--' + flatObj.offer.features[j])) {
-        featureAvailabilityFlag = true;
-      }
-    }
-  };
-
   for (var i = 0; i < popupFeatureItems.length; i++) {
-    var featureAvailabilityFlag = false;
-
-    checkFeatureAvailabililty();
-
-    if (!featureAvailabilityFlag) {
+    if (!checkFeatureAvailabililty(popupElement, flatObj, i)) {
       popupFeaturesList[0].removeChild(popupFeatureItems[i]);
     }
   }
