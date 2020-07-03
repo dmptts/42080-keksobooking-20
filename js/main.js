@@ -127,6 +127,17 @@ var renderPins = function (pinsQuantity) {
   pinsBlock.appendChild(pinFragment);
 };
 
+var filterFeatures = function (popupElement, flatObj) {
+  var popupFeaturesList = popupElement.querySelectorAll('.popup__features');
+  var popupFeatureItems = popupElement.querySelectorAll('.popup__feature');
+
+  for (var i = 0; i < popupFeatureItems.length; i++) {
+    if (!checkFeatureAvailabililty(popupFeatureItems, flatObj, i)) {
+      popupFeaturesList[0].removeChild(popupFeatureItems[i]);
+    }
+  }
+};
+
 var checkFeatureAvailabililty = function (popupFeatureItems, flatObj, index) {
   for (var j = 0; j < flatObj.offer.features.length; j++) {
     if (popupFeatureItems[index].classList.contains('popup__feature--' + flatObj.offer.features[j])) {
@@ -135,17 +146,6 @@ var checkFeatureAvailabililty = function (popupFeatureItems, flatObj, index) {
   }
 
   return false;
-};
-
-var filterFeatures = function (popupElement, flatObj) {
-  var popupFeaturesList = popupElement.querySelectorAll('.popup__features');
-  var popupFeatureItems = popupElement.querySelectorAll('.popup__feature');
-
-  for (var i = 0; i < popupFeatureItems.length; i++) {
-    if (!checkFeatureAvailabililty(popupElement, flatObj, i)) {
-      popupFeaturesList[0].removeChild(popupFeatureItems[i]);
-    }
-  }
 };
 
 var addPhotos = function (popupElement) {
@@ -162,7 +162,7 @@ var addPhotos = function (popupElement) {
   popupPhotosContainer.replaceChild(popupPhotosFragment, popupPhotoTemplate);
 };
 
-var createFirstPopup = function (flatObj) {
+var createCard = function (flatObj) {
   var popupElement = popupTemplate.cloneNode(true);
 
   popupElement.querySelector('.popup__title').textContent = flatObj.offer.title;
@@ -180,9 +180,9 @@ var createFirstPopup = function (flatObj) {
   return popupElement;
 };
 
-var renderFirstPopup = function () {
-  map.insertBefore(createFirstPopup(pinsDataArr[0]), mapFilter);
+var renderCard = function () {
+  map.insertBefore(createCard(pinsDataArr[0]), mapFilter);
 };
 
 renderPins(8);
-renderFirstPopup();
+renderCard();
