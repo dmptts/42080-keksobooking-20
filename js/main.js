@@ -58,6 +58,13 @@ var onMainPinMousedown = function (evt) {
   }
 };
 
+var onMainPinEnterPress = function (evt) {
+  if (evt.key === 'Enter') {
+    evt.preventDefault();
+    enablePage();
+  }
+};
+
 var disableFieldsets = function () {
   for (var i = 0; i < adFormFieldsets.length; i++) {
     adFormFieldsets[i].setAttribute('disabled', true);
@@ -76,6 +83,7 @@ var enablePage = function () {
   enableFieldsets();
   renderPins(8);
   mapMainPin.removeEventListener('mousedown', onMainPinMousedown);
+  mapMainPin.removeEventListener('keydown', onMainPinEnterPress);
 };
 
 var getRandomInteger = function (min, max) {
@@ -214,6 +222,7 @@ var renderPins = function (pinsQuantity) {
 // };
 
 mapMainPin.addEventListener('mousedown', onMainPinMousedown);
+mapMainPin.addEventListener('keydown', onMainPinEnterPress);
 
 disableFieldsets();
 // renderCard();
