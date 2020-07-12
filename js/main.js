@@ -56,6 +56,18 @@ var pinFragment = document.createDocumentFragment();
 var adForm = document.querySelector('.ad-form');
 var adFormFieldsets = adForm.querySelectorAll('fieldset');
 var addressInput = document.querySelector('#address');
+var roomQuiantityInput = document.querySelector('#room_number');
+var capacityInput = document.querySelector('#capacity');
+
+var validateQuantity = function () {
+  if ((Number(roomQuiantityInput.value) !== 100) && (Number(capacityInput.value) > Number(roomQuiantityInput.value))) {
+    capacityInput.setCustomValidity('Гостей не должно быть больше, чем комнат');
+  } else if ((Number(roomQuiantityInput.value) === 100) && Number(capacityInput.value) !== 0) {
+    capacityInput.setCustomValidity('Выбранное жилье не для гостей');
+  } else {
+    capacityInput.setCustomValidity('');
+  }
+};
 
 var onMainPinMousedown = function (evt) {
   if (evt.button === 0) {
@@ -107,6 +119,7 @@ var enablePage = function () {
   mapMainPin.removeEventListener('keydown', onMainPinEnterPress);
   isPageEnabled = true;
   fillAddressInput();
+  validateQuantity();
 };
 
 var getRandomInteger = function (min, max) {
@@ -246,6 +259,7 @@ var renderPins = function (pinsQuantity) {
 
 mapMainPin.addEventListener('mousedown', onMainPinMousedown);
 mapMainPin.addEventListener('keydown', onMainPinEnterPress);
+capacityInput.addEventListener('change', validateQuantity);
 
 disableFieldsets();
 fillAddressInput();
