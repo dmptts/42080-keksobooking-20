@@ -41,6 +41,7 @@ var MAIN_PIN_HEIGTH = 62;
 var MAIN_PIN_PEAK_HEIGTH = 22;
 var PIN_WIDTH = 50;
 var PIN_HEIGTH = 70;
+var ROOMS_MAX_QUANTITY = 100;
 
 var isPageEnabled = false;
 
@@ -60,10 +61,12 @@ var roomQuiantityInput = document.querySelector('#room_number');
 var capacityInput = document.querySelector('#capacity');
 
 var validateQuantity = function () {
-  if ((Number(roomQuiantityInput.value) !== 100) && (Number(capacityInput.value) > Number(roomQuiantityInput.value))) {
+  if ((Number(roomQuiantityInput.value) !== ROOMS_MAX_QUANTITY) && (Number(capacityInput.value) > Number(roomQuiantityInput.value))) {
     capacityInput.setCustomValidity('Гостей не должно быть больше, чем комнат');
-  } else if ((Number(roomQuiantityInput.value) === 100) && Number(capacityInput.value) !== 0) {
+  } else if ((Number(roomQuiantityInput.value) === ROOMS_MAX_QUANTITY) && (Number(capacityInput.value) !== 0)) {
     capacityInput.setCustomValidity('Выбранное жилье не для гостей');
+  } else if ((Number(roomQuiantityInput.value) !== ROOMS_MAX_QUANTITY) && (Number(capacityInput.value) === 0)) {
+    capacityInput.setCustomValidity('Выберите вариант в 100 комнат');
   } else {
     capacityInput.setCustomValidity('');
   }
@@ -83,37 +86,28 @@ var onMainPinEnterPress = function (evt) {
   }
 };
 
-var disableFieldsets = function () {
+var toggleFieldsets = function (boolean) {
   for (var i = 0; i < adFormFieldsets.length; i++) {
-    adFormFieldsets[i].setAttribute('disabled', true);
-  }
-};
-
-var enableFieldsets = function () {
-  for (var i = 0; i < adFormFieldsets.length; i++) {
-    adFormFieldsets[i].removeAttribute('disabled');
+    adFormFieldsets[i].disabled = boolean;
   }
 };
 
 var getMainPinCoordinates = function () {
-  var mainPinCoordinates;
-  if (isPageEnabled) {
-    mainPinCoordinates = (mapMainPin.style.top.slice(0, -2) - MAIN_PIN_WIDTH / 2) + ', ' + (mapMainPin.style.left.slice(0, -2) - MAIN_PIN_HEIGTH - MAIN_PIN_PEAK_HEIGTH);
-  } else {
-    mainPinCoordinates = (mapMainPin.style.top.slice(0, -2) - MAIN_PIN_WIDTH / 2) + ', ' + (mapMainPin.style.left.slice(0, -2) - MAIN_PIN_HEIGTH / 2);
-  }
+  var mainPinX = isPageEnabled ? mapMainPin.offsetLeft - MAIN_PIN_HEIGTH - MAIN_PIN_PEAK_HEIGTH : mapMainPin.offsetLeft - MAIN_PIN_HEIGTH / 2;
+  var mainPinY = mapMainPin.offsetTop - MAIN_PIN_WIDTH / 2;
 
-  return mainPinCoordinates;
+  return {mainPinX: mainPinX, mainPinY: mainPinY};
 };
 
 var fillAddressInput = function () {
-  addressInput.value = getMainPinCoordinates();
+  var mainPinCoordinates = getMainPinCoordinates();
+  addressInput.value = mainPinCoordinates.mainPinX + ', ' + mainPinCoordinates.mainPinY;
 };
 
 var enablePage = function () {
   map.classList.remove('map--faded');
   adForm.classList.remove('ad-form--disabled');
-  enableFieldsets();
+  toggleFieldsets(false);
   renderPins(8);
   mapMainPin.removeEventListener('mousedown', onMainPinMousedown);
   mapMainPin.removeEventListener('keydown', onMainPinEnterPress);
@@ -261,6 +255,6 @@ mapMainPin.addEventListener('mousedown', onMainPinMousedown);
 mapMainPin.addEventListener('keydown', onMainPinEnterPress);
 capacityInput.addEventListener('change', validateQuantity);
 
-disableFieldsets();
+toggleFieldsets(true);
 fillAddressInput();
 // renderCard();
