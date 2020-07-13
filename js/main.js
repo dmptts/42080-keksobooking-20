@@ -86,9 +86,9 @@ var onMainPinEnterPress = function (evt) {
   }
 };
 
-var toggleFieldsets = function (boolean) {
+var toggleFieldsets = function (isDisabled) {
   for (var i = 0; i < adFormFieldsets.length; i++) {
-    adFormFieldsets[i].disabled = boolean;
+    adFormFieldsets[i].disabled = isDisabled;
   }
 };
 
@@ -99,9 +99,8 @@ var getMainPinCoordinates = function () {
   return {mainPinX: mainPinX, mainPinY: mainPinY};
 };
 
-var fillAddressInput = function () {
-  var mainPinCoordinates = getMainPinCoordinates();
-  addressInput.value = mainPinCoordinates.mainPinX + ', ' + mainPinCoordinates.mainPinY;
+var setAddress = function (mainPinX, mainPinY) {
+  addressInput.value = mainPinX + ', ' + mainPinY;
 };
 
 var enablePage = function () {
@@ -112,7 +111,7 @@ var enablePage = function () {
   mapMainPin.removeEventListener('mousedown', onMainPinMousedown);
   mapMainPin.removeEventListener('keydown', onMainPinEnterPress);
   isPageEnabled = true;
-  fillAddressInput();
+  setAddress(getMainPinCoordinates().mainPinX, getMainPinCoordinates().mainPinY);
   validateQuantity();
 };
 
@@ -256,5 +255,5 @@ mapMainPin.addEventListener('keydown', onMainPinEnterPress);
 capacityInput.addEventListener('change', validateQuantity);
 
 toggleFieldsets(true);
-fillAddressInput();
+setAddress(getMainPinCoordinates().mainPinX, getMainPinCoordinates().mainPinY);
 // renderCard();
