@@ -111,7 +111,8 @@ var enablePage = function () {
   mapMainPin.removeEventListener('mousedown', onMainPinMousedown);
   mapMainPin.removeEventListener('keydown', onMainPinEnterPress);
   isPageEnabled = true;
-  setAddress(getMainPinCoordinates().mainPinX, getMainPinCoordinates().mainPinY);
+  mainPinCoordinates = getMainPinCoordinates();
+  setAddress(mainPinCoordinates.mainPinX, mainPinCoordinates.mainPinY);
   validateQuantity();
 };
 
@@ -250,10 +251,12 @@ var renderPins = function (pinsQuantity) {
 //   map.insertBefore(createCard(pinsDataArr[0]), mapFilter);
 // };
 
+var mainPinCoordinates = getMainPinCoordinates();
+
 mapMainPin.addEventListener('mousedown', onMainPinMousedown);
 mapMainPin.addEventListener('keydown', onMainPinEnterPress);
 capacityInput.addEventListener('change', validateQuantity);
 
 toggleFieldsets(true);
-setAddress(getMainPinCoordinates().mainPinX, getMainPinCoordinates().mainPinY);
+setAddress(mainPinCoordinates.mainPinX, mainPinCoordinates.mainPinY);
 // renderCard();
