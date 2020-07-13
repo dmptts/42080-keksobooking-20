@@ -28,26 +28,93 @@ var OFFER_PHOTOS = [
   'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
 ];
-var OFFER_TYPES_KEY = {
-  'palace': 'Дворец',
-  'flat': 'Квартира',
-  'house': 'Дом',
-  'bungalo': 'Бунгало'
-};
+// var OFFER_TYPES_KEY = {
+//   'palace': 'Дворец',
+//   'flat': 'Квартира',
+//   'house': 'Дом',
+//   'bungalo': 'Бунгало'
+// };
 var COORDINATES_X_MIN = 130;
 var COORDINATES_X_MAX = 630;
+var MAIN_PIN_WIDTH = 62;
+var MAIN_PIN_HEIGTH = 62;
+var MAIN_PIN_PEAK_HEIGTH = 22;
 var PIN_WIDTH = 50;
 var PIN_HEIGTH = 70;
+var ROOMS_MAX_QUANTITY = 100;
 
+var isPageEnabled = false;
 
 var pinsDataArr = [];
 var pinTemplate = document.querySelector('#pin').content;
-var popupTemplate = document.querySelector('#card').content;
+// var popupTemplate = document.querySelector('#card').content;
 var map = document.querySelector('.map');
-var mapFilter = document.querySelector('.map__filters-container');
+var mapMainPin = document.querySelector('.map__pin--main');
+// var mapFilter = document.querySelector('.map__filters-container');
 var mapWidth = Number(getComputedStyle(map).width.slice(0, -2));
 var pinsBlock = document.querySelector('.map__pins');
 var pinFragment = document.createDocumentFragment();
+var adForm = document.querySelector('.ad-form');
+var adFormFieldsets = adForm.querySelectorAll('fieldset');
+var addressInput = document.querySelector('#address');
+var roomQuiantityInput = document.querySelector('#room_number');
+var capacityInput = document.querySelector('#capacity');
+
+var validateQuantity = function () {
+  if ((Number(roomQuiantityInput.value) !== ROOMS_MAX_QUANTITY) && (Number(capacityInput.value) > Number(roomQuiantityInput.value))) {
+    capacityInput.setCustomValidity('Гостей не должно быть больше, чем комнат');
+  } else if ((Number(roomQuiantityInput.value) === ROOMS_MAX_QUANTITY) && (Number(capacityInput.value) !== 0)) {
+    capacityInput.setCustomValidity('Выбранное жилье не для гостей');
+  } else if ((Number(roomQuiantityInput.value) !== ROOMS_MAX_QUANTITY) && (Number(capacityInput.value) === 0)) {
+    capacityInput.setCustomValidity('Выберите вариант в 100 комнат');
+  } else {
+    capacityInput.setCustomValidity('');
+  }
+};
+
+var onMainPinMousedown = function (evt) {
+  if (evt.button === 0) {
+    evt.preventDefault();
+    enablePage();
+  }
+};
+
+var onMainPinEnterPress = function (evt) {
+  if (evt.key === 'Enter') {
+    evt.preventDefault();
+    enablePage();
+  }
+};
+
+var toggleFieldsets = function (isDisabled) {
+  for (var i = 0; i < adFormFieldsets.length; i++) {
+    adFormFieldsets[i].disabled = isDisabled;
+  }
+};
+
+var getMainPinCoordinates = function () {
+  var mainPinX = isPageEnabled ? mapMainPin.offsetLeft - MAIN_PIN_HEIGTH - MAIN_PIN_PEAK_HEIGTH : mapMainPin.offsetLeft - MAIN_PIN_HEIGTH / 2;
+  var mainPinY = mapMainPin.offsetTop - MAIN_PIN_WIDTH / 2;
+
+  return {mainPinX: mainPinX, mainPinY: mainPinY};
+};
+
+var setAddress = function (mainPinX, mainPinY) {
+  addressInput.value = mainPinX + ', ' + mainPinY;
+};
+
+var enablePage = function () {
+  map.classList.remove('map--faded');
+  adForm.classList.remove('ad-form--disabled');
+  toggleFieldsets(false);
+  renderPins(8);
+  mapMainPin.removeEventListener('mousedown', onMainPinMousedown);
+  mapMainPin.removeEventListener('keydown', onMainPinEnterPress);
+  isPageEnabled = true;
+  mainPinCoordinates = getMainPinCoordinates();
+  setAddress(mainPinCoordinates.mainPinX, mainPinCoordinates.mainPinY);
+  validateQuantity();
+};
 
 var getRandomInteger = function (min, max) {
   return Math.floor(min + Math.random() * (max + 1 - min));
@@ -127,62 +194,69 @@ var renderPins = function (pinsQuantity) {
   pinsBlock.appendChild(pinFragment);
 };
 
-var filterFeatures = function (popupElement, flatObj) {
-  var popupFeaturesList = popupElement.querySelectorAll('.popup__features');
-  var popupFeatureItems = popupElement.querySelectorAll('.popup__feature');
+// var filterFeatures = function (popupElement, flatObj) {
+//   var popupFeaturesList = popupElement.querySelectorAll('.popup__features');
+//   var popupFeatureItems = popupElement.querySelectorAll('.popup__feature');
 
-  for (var i = 0; i < popupFeatureItems.length; i++) {
-    if (!checkFeatureAvailabililty(popupFeatureItems, flatObj, i)) {
-      popupFeaturesList[0].removeChild(popupFeatureItems[i]);
-    }
-  }
-};
+//   for (var i = 0; i < popupFeatureItems.length; i++) {
+//     if (!checkFeatureAvailabililty(popupFeatureItems, flatObj, i)) {
+//       popupFeaturesList[0].removeChild(popupFeatureItems[i]);
+//     }
+//   }
+// };
 
-var checkFeatureAvailabililty = function (popupFeatureItems, flatObj, index) {
-  for (var j = 0; j < flatObj.offer.features.length; j++) {
-    if (popupFeatureItems[index].classList.contains('popup__feature--' + flatObj.offer.features[j])) {
-      return true;
-    }
-  }
+// var checkFeatureAvailabililty = function (popupFeatureItems, flatObj, index) {
+//   for (var j = 0; j < flatObj.offer.features.length; j++) {
+//     if (popupFeatureItems[index].classList.contains('popup__feature--' + flatObj.offer.features[j])) {
+//       return true;
+//     }
+//   }
 
-  return false;
-};
+//   return false;
+// };
 
-var addPhotos = function (popupElement) {
-  var popupPhotosContainer = popupElement.querySelector('.popup__photos');
-  var popupPhotoTemplate = popupElement.querySelector('.popup__photo');
-  var popupPhotosFragment = document.createDocumentFragment();
+// var addPhotos = function (popupElement) {
+//   var popupPhotosContainer = popupElement.querySelector('.popup__photos');
+//   var popupPhotoTemplate = popupElement.querySelector('.popup__photo');
+//   var popupPhotosFragment = document.createDocumentFragment();
 
-  for (var i = 0; i < pinsDataArr[0].offer.photos.length; i++) {
-    var popupPhoto = popupPhotoTemplate.cloneNode(true);
-    popupPhoto.src = pinsDataArr[0].offer.photos[i];
-    popupPhotosFragment.appendChild(popupPhoto);
-  }
+//   for (var i = 0; i < pinsDataArr[0].offer.photos.length; i++) {
+//     var popupPhoto = popupPhotoTemplate.cloneNode(true);
+//     popupPhoto.src = pinsDataArr[0].offer.photos[i];
+//     popupPhotosFragment.appendChild(popupPhoto);
+//   }
 
-  popupPhotosContainer.replaceChild(popupPhotosFragment, popupPhotoTemplate);
-};
+//   popupPhotosContainer.replaceChild(popupPhotosFragment, popupPhotoTemplate);
+// };
 
-var createCard = function (flatObj) {
-  var popupElement = popupTemplate.cloneNode(true);
+// var createCard = function (flatObj) {
+//   var popupElement = popupTemplate.cloneNode(true);
 
-  popupElement.querySelector('.popup__title').textContent = flatObj.offer.title;
-  popupElement.querySelector('.popup__text--address').textContent = flatObj.offer.address;
-  popupElement.querySelector('.popup__text--price').textContent = flatObj
-  .offer.price + '₽/ночь';
-  popupElement.querySelector('.popup__type').textContent = OFFER_TYPES_KEY[flatObj.offer.type];
-  popupElement.querySelector('.popup__text--capacity').textContent = flatObj.offer.rooms + ' комнаты для ' + flatObj.offer.guests + ' гостей';
-  popupElement.querySelector('.popup__text--time').textContent = 'заезд после ' + flatObj.offer.checkin + ', выезд до ' + flatObj.offer.checkout;
-  popupElement.querySelector('.popup__description').textContent = flatObj.offer.description;
+//   popupElement.querySelector('.popup__title').textContent = flatObj.offer.title;
+//   popupElement.querySelector('.popup__text--address').textContent = flatObj.offer.address;
+//   popupElement.querySelector('.popup__text--price').textContent = flatObj
+//   .offer.price + '₽/ночь';
+//   popupElement.querySelector('.popup__type').textContent = OFFER_TYPES_KEY[flatObj.offer.type];
+//   popupElement.querySelector('.popup__text--capacity').textContent = flatObj.offer.rooms + ' комнаты для ' + flatObj.offer.guests + ' гостей';
+//   popupElement.querySelector('.popup__text--time').textContent = 'заезд после ' + flatObj.offer.checkin + ', выезд до ' + flatObj.offer.checkout;
+//   popupElement.querySelector('.popup__description').textContent = flatObj.offer.description;
 
-  filterFeatures(popupElement, flatObj);
-  addPhotos(popupElement);
+//   filterFeatures(popupElement, flatObj);
+//   addPhotos(popupElement);
 
-  return popupElement;
-};
+//   return popupElement;
+// };
 
-var renderCard = function () {
-  map.insertBefore(createCard(pinsDataArr[0]), mapFilter);
-};
+// var renderCard = function () {
+//   map.insertBefore(createCard(pinsDataArr[0]), mapFilter);
+// };
 
-renderPins(8);
-renderCard();
+var mainPinCoordinates = getMainPinCoordinates();
+
+mapMainPin.addEventListener('mousedown', onMainPinMousedown);
+mapMainPin.addEventListener('keydown', onMainPinEnterPress);
+capacityInput.addEventListener('change', validateQuantity);
+
+toggleFieldsets(true);
+setAddress(mainPinCoordinates.mainPinX, mainPinCoordinates.mainPinY);
+// renderCard();
