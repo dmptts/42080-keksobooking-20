@@ -34,6 +34,12 @@ var OFFER_TYPES_KEY = {
   'house': 'Дом',
   'bungalo': 'Бунгало'
 };
+var OFFER_TYPES_MIN_PRICE = {
+  'palace': 10000,
+  'flat': 1000,
+  'house': 5000,
+  'bungalo': 0
+};
 var COORDINATES_X_MIN = 130;
 var COORDINATES_X_MAX = 630;
 var MAIN_PIN_WIDTH = 62;
@@ -59,6 +65,10 @@ var adFormFieldsets = adForm.querySelectorAll('fieldset');
 var addressInput = document.querySelector('#address');
 var roomQuiantityInput = document.querySelector('#room_number');
 var capacityInput = document.querySelector('#capacity');
+var priceInput = document.querySelector('#price');
+var typeInput = document.querySelector('#type');
+var timeInSelect = document.querySelector('#timein');
+var timeOutSelect = document.querySelector('#timeout');
 
 var validateQuantity = function () {
   if ((Number(roomQuiantityInput.value) !== ROOMS_MAX_QUANTITY) && (Number(capacityInput.value) > Number(roomQuiantityInput.value))) {
@@ -114,6 +124,7 @@ var enablePage = function () {
   mainPinCoordinates = getMainPinCoordinates();
   setAddress(mainPinCoordinates.mainPinX, mainPinCoordinates.mainPinY);
   validateQuantity();
+  getMinimalPrice();
 };
 
 var getRandomInteger = function (min, max) {
@@ -278,12 +289,47 @@ var onPopupEcsPress = function (evt) {
   }
 };
 
+var getMinimalPrice = function () {
+  if (typeInput.value === 'bungalo') {
+    priceInput.min = 0;
+  } else if (typeInput.value === 'flat') {
+    priceInput.min = 1000;
+  } else if (typeInput.value === 'house') {
+    priceInput.min = 5000;
+  } else {
+    priceInput.min = 10000;
+    priceInput.placeholder = 10000;
+  }
+};
+
+var synchronizeTimeFields = function (evt) {
+  var synchronizedSelect;
+
+  if (evt.target.id === 'timein') {
+    synchronizedSelect = timeOutSelect;
+  } else {
+    synchronizedSelect = timeInSelect;
+  }
+
+  selectSyncronisedOption(evt, synchronizedSelect);
+};
+
+var selectSyncronisedOption = function (evt, synchronizedSelect) {
+  for (var i = 0; i < synchronizedSelect.length; i++) {
+    if (evt.target.value === synchronizedSelect[i].value) {
+      synchronizedSelect[i].selected = true;
+    }
+  }
+};
 
 var mainPinCoordinates = getMainPinCoordinates();
 
 mapMainPin.addEventListener('mousedown', onMainPinMousedown);
 mapMainPin.addEventListener('keydown', onMainPinEnterPress);
 capacityInput.addEventListener('change', validateQuantity);
+typeInput.addEventListener('change', getMinimalPrice);
+timeInSelect.addEventListener('change', synchronizeTimeFields);
+timeOutSelect.addEventListener('change', synchronizeTimeFields);
 
 toggleFieldsets(true);
 setAddress(mainPinCoordinates.mainPinX, mainPinCoordinates.mainPinY);
