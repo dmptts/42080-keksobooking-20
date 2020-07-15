@@ -34,12 +34,6 @@ var OFFER_TYPES_KEY = {
   'house': 'Дом',
   'bungalo': 'Бунгало'
 };
-var OFFER_TYPES_MIN_PRICE = {
-  'palace': 10000,
-  'flat': 1000,
-  'house': 5000,
-  'bungalo': 0
-};
 var COORDINATES_X_MIN = 130;
 var COORDINATES_X_MAX = 630;
 var MAIN_PIN_WIDTH = 62;
