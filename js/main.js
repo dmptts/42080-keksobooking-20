@@ -298,7 +298,7 @@ var getMinimalPrice = function () {
   }
 };
 
-var syncronizeInputs = function (changedInput, synchronizedInput) {
+var synchronizeTimes = function (changedInput, synchronizedInput) {
   synchronizedInput.value = changedInput.value;
 };
 
@@ -309,10 +309,10 @@ mapMainPin.addEventListener('keydown', onMainPinEnterPress);
 capacityInput.addEventListener('change', validateQuantity);
 typeInput.addEventListener('change', getMinimalPrice);
 timeInSelect.addEventListener('change', function () {
-  syncronizeInputs(timeInSelect, timeOutSelect);
+  synchronizeTimes(timeInSelect, timeOutSelect);
 });
 timeOutSelect.addEventListener('change', function () {
-  syncronizeInputs(timeOutSelect, timeInSelect);
+  synchronizeTimes(timeOutSelect, timeInSelect);
 });
 
 toggleFieldsets(true);
