@@ -63,6 +63,7 @@ var priceInput = document.querySelector('#price');
 var typeInput = document.querySelector('#type');
 var timeInSelect = document.querySelector('#timein');
 var timeOutSelect = document.querySelector('#timeout');
+var card;
 
 var validateQuantity = function () {
   if ((Number(roomQuiantityInput.value) !== ROOMS_MAX_QUANTITY) && (Number(capacityInput.value) > Number(roomQuiantityInput.value))) {
@@ -267,12 +268,13 @@ var createCard = function (flatObj) {
 var renderCard = function (pinObj) {
   map.insertBefore(createCard(pinObj), mapFilter);
   document.addEventListener('keydown', onPopupEcsPress);
+  card = document.querySelector('.popup');
 };
 
 var removeCard = function () {
-  if (document.querySelector('.popup')) {
+  if (card) {
     document.removeEventListener('keydown', onPopupEcsPress);
-    document.querySelector('.popup').remove();
+    card.remove();
   }
 };
 
@@ -296,24 +298,8 @@ var getMinimalPrice = function () {
   }
 };
 
-var synchronizeTimeFields = function (evt) {
-  var synchronizedSelect;
-
-  if (evt.target.id === 'timein') {
-    synchronizedSelect = timeOutSelect;
-  } else {
-    synchronizedSelect = timeInSelect;
-  }
-
-  selectSyncronisedOption(evt, synchronizedSelect);
-};
-
-var selectSyncronisedOption = function (evt, synchronizedSelect) {
-  for (var i = 0; i < synchronizedSelect.length; i++) {
-    if (evt.target.value === synchronizedSelect[i].value) {
-      synchronizedSelect[i].selected = true;
-    }
-  }
+var syncronizeInputs = function (changedInput, synchronizedInput) {
+  synchronizedInput.value = changedInput.value;
 };
 
 var mainPinCoordinates = getMainPinCoordinates();
@@ -322,8 +308,12 @@ mapMainPin.addEventListener('mousedown', onMainPinMousedown);
 mapMainPin.addEventListener('keydown', onMainPinEnterPress);
 capacityInput.addEventListener('change', validateQuantity);
 typeInput.addEventListener('change', getMinimalPrice);
-timeInSelect.addEventListener('change', synchronizeTimeFields);
-timeOutSelect.addEventListener('change', synchronizeTimeFields);
+timeInSelect.addEventListener('change', function () {
+  syncronizeInputs(timeInSelect, timeOutSelect);
+});
+timeOutSelect.addEventListener('change', function () {
+  syncronizeInputs(timeOutSelect, timeInSelect);
+});
 
 toggleFieldsets(true);
 setAddress(mainPinCoordinates.mainPinX, mainPinCoordinates.mainPinY);
