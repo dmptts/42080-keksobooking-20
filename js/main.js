@@ -17,21 +17,15 @@
 
   var enablePage = function () {
     window.util.mapElement.classList.remove('map--faded');
-    window.form.adForm.classList.remove('ad-form--disabled');
-    window.form.toggleFieldsets(false);
+    window.util.isPageEnabled = true;
+    window.form.init();
     window.map.renderPins(8);
     window.util.mapMainPin.removeEventListener('mousedown', onMainPinMousedown);
     window.util.mapMainPin.removeEventListener('keydown', onMainPinEnterPress);
-    window.util.isPageEnabled = true;
-    window.util.mainPinCoordinates = window.util.getMainPinCoordinates();
-    window.form.setAddress(window.util.mainPinCoordinates.mainPinX, window.util.mainPinCoordinates.mainPinY);
-    window.form.validateQuantity();
-    window.form.getMinimalPrice();
+    window.util.mainPinCoordinates = window.util.getMainPinCoordinates(window.util.isPageEnabled);
   };
 
   window.util.mapMainPin.addEventListener('mousedown', onMainPinMousedown);
   window.util.mapMainPin.addEventListener('keydown', onMainPinEnterPress);
-
-  window.form.toggleFieldsets(true);
 })();
 

@@ -7,17 +7,17 @@
   var card;
 
   var renderPins = function (pinsQuantity) {
-    window.data.generatePinsDataArr(pinsQuantity);
+    window.data.generateArr(pinsQuantity);
 
-    for (var i = 0; i < window.data.pinsDataArr.length; i++) {
-      pinFragment.appendChild(window.pin.createPin(window.data.pinsDataArr[i]));
+    for (var i = 0; i < window.data.arr.length; i++) {
+      pinFragment.appendChild(window.pin.create(window.data.arr[i]));
     }
 
     pinsBlock.appendChild(pinFragment);
   };
 
   var renderCard = function (pinObj) {
-    window.util.mapElement.insertBefore(window.card.createCard(pinObj), mapFilter);
+    window.util.mapElement.insertBefore(window.card.create(pinObj), mapFilter);
     document.addEventListener('keydown', onPopupEcsPress);
     card = document.querySelector('.popup');
   };

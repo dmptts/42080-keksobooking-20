@@ -33,24 +33,22 @@
     return randomIndex;
   };
 
-  var getMainPinCoordinates = function () {
-    var mainPinX = window.util.isPageEnabled ? mapMainPin.offsetLeft - MAIN_PIN_HEIGTH - MAIN_PIN_PEAK_HEIGTH : mapMainPin.offsetLeft - MAIN_PIN_HEIGTH / 2;
+  var getMainPinCoordinates = function (pageState) {
+    var mainPinX = pageState ? mapMainPin.offsetLeft - MAIN_PIN_HEIGTH - MAIN_PIN_PEAK_HEIGTH : mapMainPin.offsetLeft - MAIN_PIN_HEIGTH / 2;
     var mainPinY = mapMainPin.offsetTop - MAIN_PIN_WIDTH / 2;
 
     return {mainPinX: mainPinX, mainPinY: mainPinY};
   };
 
   window.util = {
+    isPageEnabled: isPageEnabled,
     mapElement: map,
     mapMainPin: mapMainPin,
     mapWidth: mapWidth,
-    mainPinCoordinates: mainPinCoordinates,
-    isPageEnabled: isPageEnabled,
+    mainPinCoordinates: getMainPinCoordinates(isPageEnabled),
     getRandomInteger: getRandomInteger,
     getRandomArr: getRandomArr,
     getAndRemoveArrItem: getAndRemoveArrItem,
     getMainPinCoordinates: getMainPinCoordinates
   };
-
-  var mainPinCoordinates = getMainPinCoordinates();
 })();

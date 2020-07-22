@@ -29,9 +29,9 @@
     var popupPhotoTemplate = popupElement.querySelector('.popup__photo');
     var popupPhotosFragment = document.createDocumentFragment();
 
-    for (var i = 0; i < window.data.pinsDataArr[0].offer.photos.length; i++) {
+    for (var i = 0; i < window.data.arr[0].offer.photos.length; i++) {
       var popupPhoto = popupPhotoTemplate.cloneNode(true);
-      popupPhoto.src = window.data.pinsDataArr[0].offer.photos[i];
+      popupPhoto.src = window.data.arr[0].offer.photos[i];
       popupPhotosFragment.appendChild(popupPhoto);
     }
 
@@ -62,5 +62,5 @@
     return popupElement;
   };
 
-  window.card.createCard = createCard;
+  window.card.create = createCard;
 })();

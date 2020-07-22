@@ -52,6 +52,15 @@
     }
   };
 
+  var initForm = function () {
+    adForm.classList.remove('ad-form--disabled');
+    toggleFieldsets(false);
+    window.util.mainPinCoordinates = window.util.getMainPinCoordinates(window.util.isPageEnabled);
+    setAddress(window.util.mainPinCoordinates.mainPinX, window.util.mainPinCoordinates.mainPinY);
+    validateQuantity();
+    getMinimalPrice();
+  };
+
   capacityInput.addEventListener('change', validateQuantity);
   typeInput.addEventListener('change', getMinimalPrice);
   timeInSelect.addEventListener('change', function () {
@@ -61,13 +70,11 @@
     synchronizeTimes(timeOutSelect, timeInSelect);
   });
 
-  window.form = {
-    adForm: adForm,
-    toggleFieldsets: toggleFieldsets,
-    setAddress: setAddress,
-    validateQuantity: validateQuantity,
-    getMinimalPrice: getMinimalPrice
-  };
-
+  toggleFieldsets(false);
   setAddress(window.util.mainPinCoordinates.mainPinX, window.util.mainPinCoordinates.mainPinY);
+
+  window.form = {
+    formElement: adForm,
+    init: initForm
+  };
 })();

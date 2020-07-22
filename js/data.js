@@ -68,13 +68,13 @@
 
   var generatePinsDataArr = function (objQuantity) {
     for (var i = 0; i < objQuantity; i++) {
-      window.data.pinsDataArr[i] = generateObjData(i);
+      window.data.arr[i] = generateObjData(i);
     }
   };
 
   window.data = {
     OFFER_TYPES_KEY: OFFER_TYPES_KEY,
-    pinsDataArr: pinsDataArr,
-    generatePinsDataArr: generatePinsDataArr
+    arr: pinsDataArr,
+    generateArr: generatePinsDataArr
   };
 })();
