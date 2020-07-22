@@ -2,6 +2,8 @@
 
 (function () {
   var popupTemplate = document.querySelector('#card').content;
+  var mapFilter = document.querySelector('.map__filters-container');
+  var card;
 
   var filterFeatures = function (popupElement, flatObj) {
     var popupFeaturesList = popupElement.querySelectorAll('.popup__features');
@@ -53,7 +55,7 @@
 
     popupElement.querySelector('.popup__close').addEventListener('click', function (evt) {
       evt.preventDefault();
-      window.map.removeCard();
+      removeCard();
     });
 
     filterFeatures(popupElement, flatObj);
@@ -62,5 +64,29 @@
     return popupElement;
   };
 
-  window.card.create = createCard;
+  var renderCard = function (pinObj) {
+    window.map.element.insertBefore(window.card.create(pinObj), mapFilter);
+    document.addEventListener('keydown', onPopupEcsPress);
+    card = document.querySelector('.popup');
+  };
+
+  var removeCard = function () {
+    if (card) {
+      document.removeEventListener('keydown', onPopupEcsPress);
+      card.remove();
+    }
+  };
+
+  var onPopupEcsPress = function (evt) {
+    if (evt.key === 'Escape') {
+      evt.preventDefault();
+      removeCard();
+    }
+  };
+
+  window.card = {
+    create: createCard,
+    render: renderCard,
+    remove: removeCard
+  };
 })();

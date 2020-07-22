@@ -55,8 +55,8 @@
   var initForm = function () {
     adForm.classList.remove('ad-form--disabled');
     toggleFieldsets(false);
-    window.util.mainPinCoordinates = window.util.getMainPinCoordinates(window.util.isPageEnabled);
-    setAddress(window.util.mainPinCoordinates.mainPinX, window.util.mainPinCoordinates.mainPinY);
+    window.map.mainPinCoordinates = window.map.getMainPinCoordinates(window.util.isPageEnabled);
+    setAddress(window.map.mainPinCoordinates.mainPinX, window.map.mainPinCoordinates.mainPinY);
     validateQuantity();
     getMinimalPrice();
   };
@@ -71,7 +71,7 @@
   });
 
   toggleFieldsets(false);
-  setAddress(window.util.mainPinCoordinates.mainPinX, window.util.mainPinCoordinates.mainPinY);
+  setAddress(window.map.mainPinCoordinates.mainPinX, window.map.mainPinCoordinates.mainPinY);
 
   window.form = {
     elem: adForm,

@@ -16,13 +16,11 @@
   };
 
   var enablePage = function () {
-    window.map.element.classList.remove('map--faded');
     window.util.isPageEnabled = true;
-    window.form.init();
-    window.map.renderPins(8);
     window.map.mainPin.removeEventListener('mousedown', onMainPinMousedown);
     window.map.mainPin.removeEventListener('keydown', onMainPinEnterPress);
-    window.util.mainPinCoordinates = window.util.getMainPinCoordinates(window.util.isPageEnabled);
+    window.map.init();
+    window.form.init();
   };
 
   window.map.mainPin.addEventListener('mousedown', onMainPinMousedown);

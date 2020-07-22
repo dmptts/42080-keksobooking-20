@@ -1,10 +1,6 @@
 'use strict';
 
 (function () {
-  var MAIN_PIN_WIDTH = 62;
-  var MAIN_PIN_HEIGTH = 62;
-  var MAIN_PIN_PEAK_HEIGTH = 22;
-
   var isPageEnabled = false;
 
   var getRandomInteger = function (min, max) {
@@ -23,18 +19,9 @@
     return randomArr;
   };
 
-  var getMainPinCoordinates = function (pageState) {
-    var mainPinX = pageState ? window.map.mainPin.offsetLeft - MAIN_PIN_HEIGTH - MAIN_PIN_PEAK_HEIGTH : window.map.mainPin.offsetLeft - MAIN_PIN_HEIGTH / 2;
-    var mainPinY = window.map.mainPin.offsetTop - MAIN_PIN_WIDTH / 2;
-
-    return {mainPinX: mainPinX, mainPinY: mainPinY};
-  };
-
   window.util = {
     isPageEnabled: isPageEnabled,
-    mainPinCoordinates: getMainPinCoordinates(isPageEnabled),
     getRandomInteger: getRandomInteger,
-    getRandomArr: getRandomArr,
-    getMainPinCoordinates: getMainPinCoordinates
+    getRandomArr: getRandomArr
   };
 })();
