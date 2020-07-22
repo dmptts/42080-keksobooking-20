@@ -55,12 +55,12 @@
         'checkin': OFFER_CHEKINS_CHECKOUTS[window.util.getRandomInteger(0, OFFER_CHEKINS_CHECKOUTS.length - 1)],
         'checkout': OFFER_CHEKINS_CHECKOUTS[window.util.getRandomInteger(0, OFFER_CHEKINS_CHECKOUTS.length - 1)],
         'features': window.util.getRandomArr(OFFER_FEATURES),
-        'description': window.util.getAndRemoveArrItem(OFFER_DESCRIPTIONS),
+        'description': getAndRemoveArrItem(OFFER_DESCRIPTIONS),
         'photos': window.util.getRandomArr(OFFER_PHOTOS)
       },
 
       'location': {
-        'x': window.util.getRandomInteger(25, window.util.mapWidth - 25),
+        'x': window.util.getRandomInteger(25, window.map.width - 25),
         'y': window.util.getRandomInteger(COORDINATES_X_MIN, COORDINATES_X_MAX)
       }
     };
@@ -68,13 +68,21 @@
 
   var generatePinsDataArr = function (objQuantity) {
     for (var i = 0; i < objQuantity; i++) {
-      window.data.arr[i] = generateObjData(i);
+      window.data.pins[i] = generateObjData(i);
     }
+  };
+
+  var getAndRemoveArrItem = function (arr) {
+    var randomInt = window.util.getRandomInteger(0, arr.length - 1);
+    var randomIndex = arr[randomInt];
+    arr.splice(randomInt, 1);
+    return randomIndex;
   };
 
   window.data = {
     OFFER_TYPES_KEY: OFFER_TYPES_KEY,
-    arr: pinsDataArr,
-    generateArr: generatePinsDataArr
+    pins: pinsDataArr,
+    generatePins: generatePinsDataArr,
+    getAndRemoveArrItem: getAndRemoveArrItem
   };
 })();

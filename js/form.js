@@ -74,7 +74,7 @@
   setAddress(window.util.mainPinCoordinates.mainPinX, window.util.mainPinCoordinates.mainPinY);
 
   window.form = {
-    formElement: adForm,
+    elem: adForm,
     init: initForm
   };
 })();

@@ -16,16 +16,16 @@
   };
 
   var enablePage = function () {
-    window.util.mapElement.classList.remove('map--faded');
+    window.map.element.classList.remove('map--faded');
     window.util.isPageEnabled = true;
     window.form.init();
     window.map.renderPins(8);
-    window.util.mapMainPin.removeEventListener('mousedown', onMainPinMousedown);
-    window.util.mapMainPin.removeEventListener('keydown', onMainPinEnterPress);
+    window.map.mainPin.removeEventListener('mousedown', onMainPinMousedown);
+    window.map.mainPin.removeEventListener('keydown', onMainPinEnterPress);
     window.util.mainPinCoordinates = window.util.getMainPinCoordinates(window.util.isPageEnabled);
   };
 
-  window.util.mapMainPin.addEventListener('mousedown', onMainPinMousedown);
-  window.util.mapMainPin.addEventListener('keydown', onMainPinEnterPress);
+  window.map.mainPin.addEventListener('mousedown', onMainPinMousedown);
+  window.map.mainPin.addEventListener('keydown', onMainPinEnterPress);
 })();
 
