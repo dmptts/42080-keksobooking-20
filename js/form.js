@@ -42,7 +42,9 @@
     synchronizedInput.value = changedInput.value;
   };
 
-  var setAddress = function (mainPinX, mainPinY) {
+  var setAddress = function (pageState) {
+    var mainPinX = window.map.mainPin.offsetLeft + window.map.MAIN_PIN_WIDTH / 2;
+    var mainPinY = pageState ? window.map.mainPin.offsetTop - window.map.MAIN_PIN_HEIGTH - window.map.MAIN_PIN_PEAK_HEIGTH : window.map.mainPin.offsetTop - window.map.MAIN_PIN_HEIGTH / 2;
     addressInput.value = mainPinX + ', ' + mainPinY;
   };
 
@@ -55,8 +57,7 @@
   var initForm = function () {
     adForm.classList.remove('ad-form--disabled');
     toggleFieldsets(false);
-    window.map.mainPinCoordinates = window.map.getMainPinCoordinates(window.util.isPageEnabled);
-    setAddress(window.map.mainPinCoordinates.mainPinX, window.map.mainPinCoordinates.mainPinY);
+    setAddress(window.util.isPageEnabled);
     validateQuantity();
     getMinimalPrice();
   };
@@ -71,7 +72,7 @@
   });
 
   toggleFieldsets(false);
-  setAddress(window.map.mainPinCoordinates.mainPinX, window.map.mainPinCoordinates.mainPinY);
+  setAddress(window.util.isPageEnabled);
 
   window.form = {
     elem: adForm,

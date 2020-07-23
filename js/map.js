@@ -11,13 +11,6 @@
   var pinsBlock = document.querySelector('.map__pins');
   var pinFragment = document.createDocumentFragment();
 
-  var getMainPinCoordinates = function (pageState) {
-    var mainPinX = mapMainPin.offsetLeft + MAIN_PIN_WIDTH / 2;
-    var mainPinY = pageState ? mapMainPin.offsetTop - MAIN_PIN_HEIGTH - MAIN_PIN_PEAK_HEIGTH : mapMainPin.offsetTop - MAIN_PIN_HEIGTH / 2;
-
-    return {mainPinX: mainPinX, mainPinY: mainPinY};
-  };
-
   var renderPins = function (pinsQuantity) {
     window.data.generatePins(pinsQuantity);
 
@@ -31,7 +24,7 @@
   var initMap = function () {
     map.classList.remove('map--faded');
     renderPins(8);
-    window.map.mainPinCoordinates = getMainPinCoordinates(window.util.isPageEnabled);
+    window.form.setAddress(window.util.isPageEnabled);
   };
 
   mapMainPin.addEventListener('mousedown', function (evt) {
@@ -68,8 +61,7 @@
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
 
-      window.map.mainPinCoordinates = getMainPinCoordinates(window.util.isPageEnabled);
-      window.form.setAddress(window.map.mainPinCoordinates.mainPinX, window.map.mainPinCoordinates.mainPinY);
+      window.form.setAddress(window.util.isPageEnabled);
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
     };
@@ -79,11 +71,12 @@
   });
 
   window.map = {
+    MAIN_PIN_WIDTH: MAIN_PIN_WIDTH,
+    MAIN_PIN_HEIGTH: MAIN_PIN_HEIGTH,
+    MAIN_PIN_PEAK_HEIGTH: MAIN_PIN_PEAK_HEIGTH,
     element: map,
     width: mapWidth,
     mainPin: mapMainPin,
-    mainPinCoordinates: getMainPinCoordinates(window.util.isPageEnabled),
     init: initMap,
-    getMainPinCoordinates: getMainPinCoordinates
   };
 })();
