@@ -56,6 +56,8 @@
       if (parseInt(mapMainPin.style.left, 10) - shift.x >= 0 - MAIN_PIN_WIDTH / 2 && parseInt(mapMainPin.style.left, 10) - shift.x <= mapWidth - MAIN_PIN_WIDTH / 2) {
         mapMainPin.style.left = (mapMainPin.offsetLeft - shift.x) + 'px';
       }
+
+      window.form.setAddress(window.util.isPageEnabled);
     };
 
     var onMouseUp = function (upEvt) {

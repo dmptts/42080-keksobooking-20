@@ -44,7 +44,7 @@
 
   var setAddress = function (pageState) {
     var mainPinX = window.map.mainPin.offsetLeft + window.map.MAIN_PIN_WIDTH / 2;
-    var mainPinY = pageState ? window.map.mainPin.offsetTop - window.map.MAIN_PIN_HEIGTH - window.map.MAIN_PIN_PEAK_HEIGTH : window.map.mainPin.offsetTop - window.map.MAIN_PIN_HEIGTH / 2;
+    var mainPinY = pageState ? window.map.mainPin.offsetTop + window.map.MAIN_PIN_HEIGTH + window.map.MAIN_PIN_PEAK_HEIGTH : window.map.mainPin.offsetTop - window.map.MAIN_PIN_HEIGTH / 2;
     addressInput.value = mainPinX + ', ' + mainPinY;
   };
 
