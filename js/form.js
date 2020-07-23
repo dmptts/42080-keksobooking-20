@@ -75,6 +75,7 @@
 
   window.form = {
     elem: adForm,
-    init: initForm
+    init: initForm,
+    setAddress: setAddress
   };
 })();

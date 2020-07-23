@@ -1,6 +1,9 @@
 'use strict';
 
 (function () {
+  var COORDINATES_Y_MIN = 130;
+  var COORDINATES_Y_MAX = 630;
+
   var isPageEnabled = false;
 
   var getRandomInteger = function (min, max) {
@@ -20,6 +23,8 @@
   };
 
   window.util = {
+    COORDINATES_Y_MIN: COORDINATES_Y_MIN,
+    COORDINATES_Y_MAX: COORDINATES_Y_MAX,
     isPageEnabled: isPageEnabled,
     getRandomInteger: getRandomInteger,
     getRandomArr: getRandomArr
