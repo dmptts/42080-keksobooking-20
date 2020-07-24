@@ -48,8 +48,8 @@
         y: moveEvt.clientY
       };
 
-      if (parseInt(mapMainPin.style.top, 10) - shift.y >= window.util.COORDINATES_Y_MIN &&
-      parseInt(mapMainPin.style.top, 10) - shift.y <= window.util.COORDINATES_Y_MAX) {
+      if (parseInt(mapMainPin.style.top, 10) - shift.y >= window.util.COORDINATES_Y_MIN - MAIN_PIN_HEIGTH - MAIN_PIN_PEAK_HEIGTH &&
+      parseInt(mapMainPin.style.top, 10) - shift.y <= window.util.COORDINATES_Y_MAX - MAIN_PIN_HEIGTH - MAIN_PIN_PEAK_HEIGTH) {
         mapMainPin.style.top = (mapMainPin.offsetTop - shift.y) + 'px';
       }
 
