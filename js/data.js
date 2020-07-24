@@ -35,8 +35,6 @@
     'house': 'Дом',
     'bungalo': 'Бунгало'
   };
-  var COORDINATES_X_MIN = 130;
-  var COORDINATES_X_MAX = 630;
 
   var pinsDataArr = [];
 
@@ -61,7 +59,7 @@
 
       'location': {
         'x': window.util.getRandomInteger(25, window.map.width - 25),
-        'y': window.util.getRandomInteger(COORDINATES_X_MIN, COORDINATES_X_MAX)
+        'y': window.util.getRandomInteger(window.util.COORDINATES_Y_MIN, window.util.COORDINATES_Y_MAX)
       }
     };
   };
