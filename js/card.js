@@ -1,6 +1,13 @@
 'use strict';
 
 (function () {
+  var OFFER_TYPES_KEY = {
+    'palace': 'Дворец',
+    'flat': 'Квартира',
+    'house': 'Дом',
+    'bungalo': 'Бунгало'
+  };
+
   var popupTemplate = document.querySelector('#card').content;
   var mapFilter = document.querySelector('.map__filters-container');
   var card;
@@ -26,14 +33,14 @@
     return false;
   };
 
-  var addPhotos = function (popupElement) {
+  var addPhotos = function (popupElement, flatObj) {
     var popupPhotosContainer = popupElement.querySelector('.popup__photos');
     var popupPhotoTemplate = popupElement.querySelector('.popup__photo');
     var popupPhotosFragment = document.createDocumentFragment();
 
-    for (var i = 0; i < window.data.pins[0].offer.photos.length; i++) {
+    for (var i = 0; i < flatObj.offer.photos.length; i++) {
       var popupPhoto = popupPhotoTemplate.cloneNode(true);
-      popupPhoto.src = window.data.pins[0].offer.photos[i];
+      popupPhoto.src = flatObj.offer.photos[i];
       popupPhotosFragment.appendChild(popupPhoto);
     }
 
@@ -48,7 +55,7 @@
     popupElement.querySelector('.popup__text--address').textContent = flatObj.offer.address;
     popupElement.querySelector('.popup__text--price').textContent = flatObj
     .offer.price + '₽/ночь';
-    popupElement.querySelector('.popup__type').textContent = window.data.OFFER_TYPES_KEY[flatObj.offer.type];
+    popupElement.querySelector('.popup__type').textContent = OFFER_TYPES_KEY[flatObj.offer.type];
     popupElement.querySelector('.popup__text--capacity').textContent = flatObj.offer.rooms + ' комнаты для ' + flatObj.offer.guests + ' гостей';
     popupElement.querySelector('.popup__text--time').textContent = 'заезд после ' + flatObj.offer.checkin + ', выезд до ' + flatObj.offer.checkout;
     popupElement.querySelector('.popup__description').textContent = flatObj.offer.description;
@@ -59,13 +66,13 @@
     });
 
     filterFeatures(popupElement, flatObj);
-    addPhotos(popupElement);
+    addPhotos(popupElement, flatObj);
 
     return popupElement;
   };
 
   var renderCard = function (pinObj) {
-    window.map.element.insertBefore(window.card.create(pinObj), mapFilter);
+    window.map.element.insertBefore(createCard(pinObj), mapFilter);
     document.addEventListener('keydown', onPopupEcsPress);
     card = document.querySelector('.popup');
   };
@@ -85,7 +92,6 @@
   };
 
   window.card = {
-    create: createCard,
     render: renderCard,
     remove: removeCard
   };
