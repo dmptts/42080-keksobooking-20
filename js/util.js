@@ -22,11 +22,24 @@
     return randomArr;
   };
 
+  var onError = function (message) {
+    var node = document.createElement('div');
+    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
+    node.style.position = 'absolute';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = '30px';
+
+    node.textContent = message;
+    document.body.insertAdjacentElement('afterbegin', node);
+  };
+
   window.util = {
     COORDINATES_Y_MIN: COORDINATES_Y_MIN,
     COORDINATES_Y_MAX: COORDINATES_Y_MAX,
     isPageEnabled: isPageEnabled,
     getRandomInteger: getRandomInteger,
-    getRandomArr: getRandomArr
+    getRandomArr: getRandomArr,
+    onError: onError
   };
 })();
