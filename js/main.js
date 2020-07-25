@@ -18,14 +18,14 @@
   var onMainPinMousedown = function (evt) {
     if (evt.button === 0) {
       evt.preventDefault();
-      window.load('https://javascript.pages.academy/keksobooking/data', enablePage, window.main.onError);
+      window.load(enablePage, window.main.onError);
     }
   };
 
   var onMainPinEnterPress = function (evt) {
     if (evt.key === 'Enter') {
       evt.preventDefault();
-      window.load('https://javascript.pages.academy/keksobooking/data', enablePage, window.main.onError);
+      window.load(enablePage, window.main.onError);
     }
   };
 
