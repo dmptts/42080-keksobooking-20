@@ -33,10 +33,10 @@
     }
   };
 
-  var initMap = function () {
+  var initMap = function (pinsData) {
     map.classList.remove('map--faded');
     window.form.setAddress(window.main.isPageEnabled);
-    window.load('https://javascript.pages.academy/keksobooking/data', renderPins, window.main.onError);
+    renderPins(pinsData);
   };
 
   var disableMap = function () {

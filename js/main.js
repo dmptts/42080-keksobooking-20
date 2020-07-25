@@ -18,22 +18,22 @@
   var onMainPinMousedown = function (evt) {
     if (evt.button === 0) {
       evt.preventDefault();
-      enablePage();
+      window.load('https://javascript.pages.academy/keksobooking/data', enablePage, window.main.onError);
     }
   };
 
   var onMainPinEnterPress = function (evt) {
     if (evt.key === 'Enter') {
       evt.preventDefault();
-      enablePage();
+      window.load('https://javascript.pages.academy/keksobooking/data', enablePage, window.main.onError);
     }
   };
 
-  var enablePage = function () {
+  var enablePage = function (pinsData) {
     isPageEnabled = true;
     window.map.mainPin.removeEventListener('mousedown', onMainPinMousedown);
     window.map.mainPin.removeEventListener('keydown', onMainPinEnterPress);
-    window.map.init();
+    window.map.init(pinsData);
     window.form.init();
   };
 
