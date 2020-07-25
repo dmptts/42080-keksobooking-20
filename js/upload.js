@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var URL = 'https://javascript.pages.academy/keksobooking';
+  var URL = 'https://javascript.pagqs.academy/keksobooking';
 
   window.upload = function (data, onSuccess, onError) {
     var xhr = new XMLHttpRequest();
