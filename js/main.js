@@ -37,12 +37,21 @@
     window.form.init();
   };
 
+  var disablePage = function () {
+    isPageEnabled = false;
+    window.map.mainPin.addEventListener('mousedown', onMainPinMousedown);
+    window.map.mainPin.addEventListener('keydown', onMainPinEnterPress);
+    window.map.disable();
+    window.form.disable();
+  };
+
   window.map.mainPin.addEventListener('mousedown', onMainPinMousedown);
   window.map.mainPin.addEventListener('keydown', onMainPinEnterPress);
 
   window.main = {
     isPageEnabled: isPageEnabled,
-    onError: onError
+    onError: onError,
+    disablePage: disablePage
   };
 })();
 

@@ -62,6 +62,17 @@
     getMinimalPrice();
   };
 
+  var disableForm = function () {
+    adForm.classList.add('ad-form--disabled');
+    adForm.reset();
+    toggleFieldsets(true);
+  };
+
+  adForm.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    window.upload('https://javascript.pages.academy/keksobooking', new FormData(adForm), window.main.disablePage);
+  });
+
   capacityInput.addEventListener('change', validateQuantity);
   typeInput.addEventListener('change', getMinimalPrice);
   timeInSelect.addEventListener('change', function () {
@@ -75,7 +86,9 @@
   setAddress(window.main.isPageEnabled);
 
   window.form = {
+    elem: adForm,
     init: initForm,
+    disable: disableForm,
     setAddress: setAddress
   };
 })();
