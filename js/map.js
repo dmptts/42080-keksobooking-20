@@ -27,7 +27,7 @@
   var initMap = function () {
     map.classList.remove('map--faded');
     window.form.setAddress(window.main.isPageEnabled);
-    window.load('https://javascript.pages.academy/keksobooking/data', renderPins, window.main.onError);
+    window.load(renderPins, window.main.onError);
   };
 
   mapMainPin.addEventListener('mousedown', function (evt) {

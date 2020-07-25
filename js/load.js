@@ -1,13 +1,15 @@
 'use strict';
 
 (function () {
-  window.load = function (url, onSuccess, onError) {
+  var URL = 'https://javascript.pages.academy/keksobooking/data';
+
+  window.load = function (onSuccess, onError) {
     var xhr = new XMLHttpRequest();
 
     xhr.responseType = 'json';
     xhr.timeout = 10000;
 
-    xhr.open('GET', url);
+    xhr.open('GET', URL);
     xhr.send();
 
     xhr.addEventListener('load', function () {
