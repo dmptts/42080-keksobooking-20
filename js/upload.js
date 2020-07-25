@@ -1,15 +1,21 @@
 'use strict';
 
 (function () {
-  window.upload = function (url, data, onSuccess) {
+  var URL = 'https://javascript.pages.academy/keksobooking';
+
+  window.upload = function (data, onSuccess, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
+
+    xhr.open('POST', URL);
+    xhr.send(data);
 
     xhr.addEventListener('load', function () {
       onSuccess(xhr.response);
     });
 
-    xhr.open('POST', url);
-    xhr.send(data);
+    xhr.addEventListener('error', function () {
+      onError('Произошла ошибка соединения');
+    });
   };
 })();

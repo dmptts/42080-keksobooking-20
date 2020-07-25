@@ -12,6 +12,8 @@
   var typeInput = document.querySelector('#type');
   var timeInSelect = document.querySelector('#timein');
   var timeOutSelect = document.querySelector('#timeout');
+  var successMessageTemplate = document.querySelector('#success').content;
+  var errorMessageTemplate = document.querySelector('#error').content;
 
   var validateQuantity = function () {
     if ((Number(roomQuiantityInput.value) !== ROOMS_MAX_QUANTITY) && (Number(capacityInput.value) > Number(roomQuiantityInput.value))) {
@@ -68,9 +70,56 @@
     toggleFieldsets(true);
   };
 
+  var onResultMessageClick = function (evt) {
+    evt.preventDefault();
+    document.querySelector('.result-message').remove();
+    document.removeEventListener('click', onResultMessageClick);
+    document.removeEventListener('keydown', onResultMessageEscPress);
+  };
+
+  var onResultMessageEscPress = function (evt) {
+    if (evt.key === 'Escape') {
+      evt.preventDefault();
+      document.querySelector('.result-message').remove();
+      document.removeEventListener('click', onResultMessageClick);
+      document.removeEventListener('keydown', onResultMessageEscPress);
+    }
+  };
+
+  var onErrorMessageBtnPress = function (evt) {
+    evt.preventDefault();
+    document.querySelector('.result-message').remove();
+    document.removeEventListener('click', onResultMessageClick);
+    document.removeEventListener('keydown', onResultMessageEscPress);
+    document.querySelector('.error-button').removeEventListener('click', onErrorMessageBtnPress);
+  };
+
+  var onSuccess = function () {
+    window.main.disablePage();
+    var successMessageElement = successMessageTemplate.cloneNode(true);
+
+    document.querySelector('body').appendChild(successMessageElement);
+    document.querySelector('.success').classList.add('result-message');
+
+    document.addEventListener('click', onResultMessageClick);
+    document.addEventListener('keydown', onResultMessageEscPress);
+  };
+
+  var onError = function () {
+    var errorMessageElement = errorMessageTemplate.cloneNode(true);
+
+    document.querySelector('main').appendChild(errorMessageElement);
+
+    document.querySelector('.error').classList.add('result-message');
+
+    document.addEventListener('click', onResultMessageClick);
+    document.addEventListener('keydown', onResultMessageEscPress);
+    document.querySelector('.error-button').addEventListener('click', onErrorMessageBtnPress);
+  };
+
   adForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    window.upload('https://javascript.pages.academy/keksobooking', new FormData(adForm), window.main.disablePage);
+    window.upload(new FormData(adForm), onSuccess, onError);
   });
 
   capacityInput.addEventListener('change', validateQuantity);
