@@ -4,6 +4,8 @@
   var MAIN_PIN_WIDTH = 62;
   var MAIN_PIN_HEIGTH = 62;
   var MAIN_PIN_PEAK_HEIGTH = 22;
+  var COORDINATES_Y_MIN = 130;
+  var COORDINATES_Y_MAX = 630;
   var MAX_SIMILAR_PINS_COUNT = 5;
 
   var map = document.querySelector('.map');
@@ -12,10 +14,10 @@
   var pinsBlock = document.querySelector('.map__pins');
   var pinFragment = document.createDocumentFragment();
 
-  var renderPins = function () {
+  var renderPins = function (pinsData) {
     for (var i = 0; i < MAX_SIMILAR_PINS_COUNT; i++) {
-      if (window.data.pins[i].offer) {
-        pinFragment.appendChild(window.pin.create(window.data.pins[i]));
+      if (pinsData[i].offer) {
+        pinFragment.appendChild(window.pin.create(pinsData[i]));
       }
     }
 
@@ -24,8 +26,8 @@
 
   var initMap = function () {
     map.classList.remove('map--faded');
-    renderPins();
-    window.form.setAddress(window.util.isPageEnabled);
+    window.form.setAddress(window.main.isPageEnabled);
+    window.load('https://javascript.pages.academy/keksobooking/data', renderPins, window.main.onError);
   };
 
   mapMainPin.addEventListener('mousedown', function (evt) {
@@ -49,8 +51,8 @@
         y: moveEvt.clientY
       };
 
-      if (parseInt(mapMainPin.style.top, 10) - shift.y >= window.util.COORDINATES_Y_MIN - MAIN_PIN_HEIGTH - MAIN_PIN_PEAK_HEIGTH &&
-      parseInt(mapMainPin.style.top, 10) - shift.y <= window.util.COORDINATES_Y_MAX - MAIN_PIN_HEIGTH - MAIN_PIN_PEAK_HEIGTH) {
+      if (parseInt(mapMainPin.style.top, 10) - shift.y >= COORDINATES_Y_MIN - MAIN_PIN_HEIGTH - MAIN_PIN_PEAK_HEIGTH &&
+      parseInt(mapMainPin.style.top, 10) - shift.y <= COORDINATES_Y_MAX - MAIN_PIN_HEIGTH - MAIN_PIN_PEAK_HEIGTH) {
         mapMainPin.style.top = (mapMainPin.offsetTop - shift.y) + 'px';
       }
 
@@ -58,13 +60,13 @@
         mapMainPin.style.left = (mapMainPin.offsetLeft - shift.x) + 'px';
       }
 
-      window.form.setAddress(window.util.isPageEnabled);
+      window.form.setAddress(window.main.isPageEnabled);
     };
 
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
 
-      window.form.setAddress(window.util.isPageEnabled);
+      window.form.setAddress(window.main.isPageEnabled);
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
     };
@@ -78,9 +80,7 @@
     MAIN_PIN_HEIGTH: MAIN_PIN_HEIGTH,
     MAIN_PIN_PEAK_HEIGTH: MAIN_PIN_PEAK_HEIGTH,
     element: map,
-    width: mapWidth,
     mainPin: mapMainPin,
     init: initMap,
-
   };
 })();

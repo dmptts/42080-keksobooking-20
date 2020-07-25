@@ -57,7 +57,7 @@
   var initForm = function () {
     adForm.classList.remove('ad-form--disabled');
     toggleFieldsets(false);
-    setAddress(window.util.isPageEnabled);
+    setAddress(window.main.isPageEnabled);
     validateQuantity();
     getMinimalPrice();
   };
@@ -72,10 +72,9 @@
   });
 
   toggleFieldsets(false);
-  setAddress(window.util.isPageEnabled);
+  setAddress(window.main.isPageEnabled);
 
   window.form = {
-    elem: adForm,
     init: initForm,
     setAddress: setAddress
   };
