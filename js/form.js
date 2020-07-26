@@ -12,6 +12,7 @@
   var typeInput = document.querySelector('#type');
   var timeInSelect = document.querySelector('#timein');
   var timeOutSelect = document.querySelector('#timeout');
+  var adFormResetButton = adForm.querySelector('.ad-form__reset');
   var successMessageTemplate = document.querySelector('#success').content;
   var errorMessageTemplate = document.querySelector('#error').content;
 
@@ -56,18 +57,32 @@
     }
   };
 
+  var onAdFormSubmit = function (evt) {
+    evt.preventDefault();
+    window.network.upload(new FormData(adForm), onSuccess, onError);
+  };
+
+  var onAdFormResetButtonCLick = function (evt) {
+    evt.preventDefault();
+    window.main.disablePage();
+  };
+
   var initForm = function () {
     adForm.classList.remove('ad-form--disabled');
     toggleFieldsets(false);
     setAddress(window.main.isPageEnabled);
     validateQuantity();
     getMinimalPrice();
+    adForm.addEventListener('submit', onAdFormSubmit);
+    adFormResetButton.addEventListener('click', onAdFormResetButtonCLick);
   };
 
   var disableForm = function () {
     adForm.classList.add('ad-form--disabled');
     adForm.reset();
     toggleFieldsets(true);
+    adForm.removeEventListener('submit', onAdFormSubmit);
+    adFormResetButton.removeEventListener('click', onAdFormResetButtonCLick);
   };
 
   var removeResultMessage = function (evt) {
@@ -113,11 +128,6 @@
     document.addEventListener('keydown', onDocumentEscPress);
     document.querySelector('.error__button').addEventListener('click', onErrorMessageButtonClick);
   };
-
-  adForm.addEventListener('submit', function (evt) {
-    evt.preventDefault();
-    window.network.upload(new FormData(adForm), onSuccess, onError);
-  });
 
   capacityInput.addEventListener('change', validateQuantity);
   typeInput.addEventListener('change', getMinimalPrice);
