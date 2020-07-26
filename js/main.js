@@ -2,14 +2,15 @@
 
 (function () {
   var isPageEnabled = false;
+  var mapErrorBlock;
 
   var onError = function (message) {
-    if (!document.querySelector('.map__error')) {
-      var node = document.createElement('div');
-      node.classList.add('map__error');
+    if (!mapErrorBlock) {
+      mapErrorBlock = document.createElement('div');
+      mapErrorBlock.classList.add('map__error');
 
-      node.textContent = message;
-      document.body.insertAdjacentElement('afterbegin', node);
+      mapErrorBlock.textContent = message;
+      document.body.insertAdjacentElement('afterbegin', mapErrorBlock);
     }
   };
 
@@ -33,8 +34,8 @@
     window.map.mainPin.removeEventListener('keydown', onMainPinEnterPress);
     window.map.init(pinsData);
     window.form.init();
-    if (document.querySelector('.map__error')) {
-      document.querySelector('.map__error').remove();
+    if (mapErrorBlock) {
+      mapErrorBlock.remove();
     }
   };
 
