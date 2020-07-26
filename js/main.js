@@ -4,28 +4,26 @@
   var isPageEnabled = false;
 
   var onError = function (message) {
-    var node = document.createElement('div');
-    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
-    node.style.position = 'absolute';
-    node.style.left = 0;
-    node.style.right = 0;
-    node.style.fontSize = '30px';
+    if (!document.querySelector('.map__error')) {
+      var node = document.createElement('div');
+      node.classList.add('map__error');
 
-    node.textContent = message;
-    document.body.insertAdjacentElement('afterbegin', node);
+      node.textContent = message;
+      document.body.insertAdjacentElement('afterbegin', node);
+    }
   };
 
   var onMainPinMousedown = function (evt) {
     if (evt.button === 0) {
       evt.preventDefault();
-      window.load(enablePage, window.main.onError);
+      window.network.load(enablePage, window.main.onError);
     }
   };
 
   var onMainPinEnterPress = function (evt) {
     if (evt.key === 'Enter') {
       evt.preventDefault();
-      window.load(enablePage, window.main.onError);
+      window.network.load(enablePage, window.main.onError);
     }
   };
 
@@ -35,6 +33,9 @@
     window.map.mainPin.removeEventListener('keydown', onMainPinEnterPress);
     window.map.init(pinsData);
     window.form.init();
+    if (document.querySelector('.map__error')) {
+      document.querySelector('.map__error').remove();
+    }
   };
 
   var disablePage = function () {

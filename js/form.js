@@ -102,7 +102,7 @@
 
   adForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    window.upload(new FormData(adForm), onSuccess, onError);
+    window.network.upload(new FormData(adForm), onSuccess, onError);
   });
 
   capacityInput.addEventListener('change', validateQuantity);
