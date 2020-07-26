@@ -2,41 +2,28 @@
 
 (function () {
   var isPageEnabled = false;
-  var mapErrorBlock;
-
-  var onError = function (message) {
-    if (!mapErrorBlock) {
-      mapErrorBlock = document.createElement('div');
-      mapErrorBlock.classList.add('map__error');
-
-      mapErrorBlock.textContent = message;
-      document.body.insertAdjacentElement('afterbegin', mapErrorBlock);
-    }
-  };
 
   var onMainPinMousedown = function (evt) {
     if (evt.button === 0) {
       evt.preventDefault();
-      window.network.load(enablePage, window.main.onError);
+      enablePage();
     }
   };
 
   var onMainPinEnterPress = function (evt) {
     if (evt.key === 'Enter') {
       evt.preventDefault();
-      window.network.load(enablePage, window.main.onError);
+      enablePage();
     }
   };
 
-  var enablePage = function (pinsData) {
+  var enablePage = function () {
     isPageEnabled = true;
     window.map.mainPin.removeEventListener('mousedown', onMainPinMousedown);
     window.map.mainPin.removeEventListener('keydown', onMainPinEnterPress);
-    window.map.init(pinsData);
+    window.map.init();
     window.form.init();
-    if (mapErrorBlock) {
-      mapErrorBlock.remove();
-    }
+    window.network.load(window.map.onSuccess, window.map.onError);
   };
 
   var disablePage = function () {
@@ -52,7 +39,6 @@
 
   window.main = {
     isPageEnabled: isPageEnabled,
-    onError: onError,
     disablePage: disablePage
   };
 })();

@@ -15,8 +15,10 @@
   var MAP_MAIN_PIN_DEFAULT_Y = mapMainPin.style.top;
   var pinsBlock = document.querySelector('.map__pins');
   var pinFragment = document.createDocumentFragment();
+  var pinsData = [];
+  var mapErrorBlock;
 
-  var renderPins = function (pinsData) {
+  var renderPins = function () {
     for (var i = 0; i < MAX_SIMILAR_PINS_COUNT; i++) {
       if (pinsData[i].offer) {
         pinFragment.appendChild(window.pin.create(pinsData[i]));
@@ -35,15 +37,34 @@
     }
   };
 
-  var initMap = function (pinsData) {
-    map.classList.remove('map--faded');
-    window.form.setAddress(window.main.isPageEnabled);
-    renderPins(pinsData);
-  };
-
   var setDefaultMainPinCoords = function () {
     mapMainPin.style.left = MAP_MAIN_PIN_DEFAULT_X;
     mapMainPin.style.top = MAP_MAIN_PIN_DEFAULT_Y;
+  };
+
+  var initMap = function () {
+    map.classList.remove('map--faded');
+    window.form.setAddress(window.main.isPageEnabled);
+  };
+
+  var onSuccess = function (responseData) {
+    pinsData = responseData;
+    renderPins();
+    window.filter.init();
+
+    if (mapErrorBlock) {
+      mapErrorBlock.remove();
+    }
+  };
+
+  var onError = function (message) {
+    if (!mapErrorBlock) {
+      mapErrorBlock = document.createElement('div');
+      mapErrorBlock.classList.add('map__error');
+
+      mapErrorBlock.textContent = message;
+      document.body.insertAdjacentElement('afterbegin', mapErrorBlock);
+    }
   };
 
   var disableMap = function () {
@@ -103,7 +124,10 @@
     MAIN_PIN_PEAK_HEIGTH: MAIN_PIN_PEAK_HEIGTH,
     element: map,
     mainPin: mapMainPin,
+    pinsData: pinsData,
     init: initMap,
-    disable: disableMap
+    disable: disableMap,
+    onSuccess: onSuccess,
+    onError: onError
   };
 })();
