@@ -72,16 +72,16 @@
 
   var removeResultMessage = function (evt) {
     evt.preventDefault();
-    document.removeEventListener('click', onResultMessageClick);
-    document.removeEventListener('keydown', onResultMessageEscPress);
+    document.removeEventListener('click', onDocumentClick);
+    document.removeEventListener('keydown', onDocumentEscPress);
     document.querySelector('.result-message').remove();
   };
 
-  var onResultMessageClick = function (evt) {
-    removeResultMessage(evt, onResultMessageClick);
+  var onDocumentClick = function (evt) {
+    removeResultMessage(evt);
   };
 
-  var onResultMessageEscPress = function (evt) {
+  var onDocumentEscPress = function (evt) {
     if (evt.key === 'Escape') {
       removeResultMessage(evt);
     }
@@ -98,8 +98,8 @@
     document.querySelector('body').appendChild(successMessageElement);
     document.querySelector('.success').classList.add('result-message');
 
-    document.addEventListener('click', onResultMessageClick);
-    document.addEventListener('keydown', onResultMessageEscPress);
+    document.addEventListener('click', onDocumentClick);
+    document.addEventListener('keydown', onDocumentEscPress);
   };
 
   var onError = function () {
@@ -109,8 +109,8 @@
 
     document.querySelector('.error').classList.add('result-message');
 
-    document.addEventListener('click', onResultMessageClick);
-    document.addEventListener('keydown', onResultMessageEscPress);
+    document.addEventListener('click', onDocumentClick);
+    document.addEventListener('keydown', onDocumentEscPress);
     document.querySelector('.error__button').addEventListener('click', onErrorMessageButtonClick);
   };
 
