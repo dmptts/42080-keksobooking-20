@@ -90,7 +90,6 @@
     evt.preventDefault();
     document.removeEventListener('click', onResultMessageClick);
     document.removeEventListener('keydown', onResultMessageEscPress);
-    document.querySelector('.error__button').removeEventListener('click', onErrorMessageBtnPress);
     document.querySelector('.result-message').remove();
   };
 
