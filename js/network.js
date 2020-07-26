@@ -3,13 +3,15 @@
 (function () {
   var LOAD_URL = 'https://javascript.pages.academy/keksobooking/data';
   var UPLOAD_URL = 'https://javascrsipt.pages.academy/keksobooking';
+  var TIMEOUT = 10000;
+  var SUCCESS_STATUS = 200;
 
   var configureXHR = function (xhr, onSuccess, onError) {
     xhr.responseType = 'json';
-    xhr.timeout = 10000;
+    xhr.timeout = TIMEOUT;
 
     xhr.addEventListener('load', function () {
-      if (xhr.status === 200) {
+      if (xhr.status === SUCCESS_STATUS) {
         onSuccess(xhr.response);
       } else {
         onError('Cтатус ответа: ' + xhr.status + ' ' + xhr.statusText);
