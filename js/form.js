@@ -70,11 +70,25 @@
     toggleFieldsets(true);
   };
 
-  var onResultMessageEvent = function (evt) {
+  var removeResultMessage = function (evt) {
     evt.preventDefault();
-    document.removeEventListener('click', onResultMessageEvent);
-    document.removeEventListener('keydown', onResultMessageEvent);
+    document.removeEventListener('click', onResultMessageClick);
+    document.removeEventListener('keydown', onResultMessageEscPress);
     document.querySelector('.result-message').remove();
+  };
+
+  var onResultMessageClick = function (evt) {
+    removeResultMessage(evt, onResultMessageClick);
+  };
+
+  var onResultMessageEscPress = function (evt) {
+    if (evt.key === 'Escape') {
+      removeResultMessage(evt);
+    }
+  };
+
+  var onErrorMessageButtonClick = function (evt) {
+    removeResultMessage(evt);
   };
 
   var onSuccess = function () {
@@ -84,8 +98,8 @@
     document.querySelector('body').appendChild(successMessageElement);
     document.querySelector('.success').classList.add('result-message');
 
-    document.addEventListener('click', onResultMessageEvent);
-    document.addEventListener('keydown', onResultMessageEvent);
+    document.addEventListener('click', onResultMessageClick);
+    document.addEventListener('keydown', onResultMessageEscPress);
   };
 
   var onError = function () {
@@ -95,9 +109,9 @@
 
     document.querySelector('.error').classList.add('result-message');
 
-    document.addEventListener('click', onResultMessageEvent);
-    document.addEventListener('keydown', onResultMessageEvent);
-    document.querySelector('.error__button').addEventListener('click', onResultMessageEvent);
+    document.addEventListener('click', onResultMessageClick);
+    document.addEventListener('keydown', onResultMessageEscPress);
+    document.querySelector('.error__button').addEventListener('click', onErrorMessageButtonClick);
   };
 
   adForm.addEventListener('submit', function (evt) {
