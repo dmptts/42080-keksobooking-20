@@ -2,7 +2,7 @@
 
 (function () {
   var LOAD_URL = 'https://javascript.pages.academy/keksobooking/data';
-  var UPLOAD_URL = 'https://javascript.pages.academy/keksobooking';
+  var UPLOAD_URL = 'https://javascrsipt.pages.academy/keksobooking';
 
   var configureXHR = function (xhr, onSuccess, onError) {
     xhr.responseType = 'json';

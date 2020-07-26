@@ -70,26 +70,10 @@
     toggleFieldsets(true);
   };
 
-  var onResultMessageClick = function (evt) {
+  var onResultMessageEvent = function (evt) {
     evt.preventDefault();
-    document.removeEventListener('click', onResultMessageClick);
-    document.removeEventListener('keydown', onResultMessageEscPress);
-    document.querySelector('.result-message').remove();
-  };
-
-  var onResultMessageEscPress = function (evt) {
-    if (evt.key === 'Escape') {
-      evt.preventDefault();
-      document.removeEventListener('click', onResultMessageClick);
-      document.removeEventListener('keydown', onResultMessageEscPress);
-      document.querySelector('.result-message').remove();
-    }
-  };
-
-  var onErrorMessageBtnPress = function (evt) {
-    evt.preventDefault();
-    document.removeEventListener('click', onResultMessageClick);
-    document.removeEventListener('keydown', onResultMessageEscPress);
+    document.removeEventListener('click', onResultMessageEvent);
+    document.removeEventListener('keydown', onResultMessageEvent);
     document.querySelector('.result-message').remove();
   };
 
@@ -100,8 +84,8 @@
     document.querySelector('body').appendChild(successMessageElement);
     document.querySelector('.success').classList.add('result-message');
 
-    document.addEventListener('click', onResultMessageClick);
-    document.addEventListener('keydown', onResultMessageEscPress);
+    document.addEventListener('click', onResultMessageEvent);
+    document.addEventListener('keydown', onResultMessageEvent);
   };
 
   var onError = function () {
@@ -111,9 +95,9 @@
 
     document.querySelector('.error').classList.add('result-message');
 
-    document.addEventListener('click', onResultMessageClick);
-    document.addEventListener('keydown', onResultMessageEscPress);
-    document.querySelector('.error__button').addEventListener('click', onErrorMessageBtnPress);
+    document.addEventListener('click', onResultMessageEvent);
+    document.addEventListener('keydown', onResultMessageEvent);
+    document.querySelector('.error__button').addEventListener('click', onResultMessageEvent);
   };
 
   adForm.addEventListener('submit', function (evt) {
