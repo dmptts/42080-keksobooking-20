@@ -73,18 +73,18 @@
 
   var renderCard = function (pinObj) {
     window.map.element.insertBefore(createCard(pinObj), mapFilter);
-    document.addEventListener('keydown', onPopupEcsPress);
+    document.addEventListener('keydown', onDocumentEcsPress);
     card = document.querySelector('.popup');
   };
 
   var removeCard = function () {
     if (card) {
-      document.removeEventListener('keydown', onPopupEcsPress);
+      document.removeEventListener('keydown', onDocumentEcsPress);
       card.remove();
     }
   };
 
-  var onPopupEcsPress = function (evt) {
+  var onDocumentEcsPress = function (evt) {
     if (evt.key === 'Escape') {
       evt.preventDefault();
       removeCard();

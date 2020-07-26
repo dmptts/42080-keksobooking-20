@@ -12,6 +12,8 @@
   var typeInput = document.querySelector('#type');
   var timeInSelect = document.querySelector('#timein');
   var timeOutSelect = document.querySelector('#timeout');
+  var successMessageTemplate = document.querySelector('#success').content;
+  var errorMessageTemplate = document.querySelector('#error').content;
 
   var validateQuantity = function () {
     if ((Number(roomQuiantityInput.value) !== ROOMS_MAX_QUANTITY) && (Number(capacityInput.value) > Number(roomQuiantityInput.value))) {
@@ -62,6 +64,61 @@
     getMinimalPrice();
   };
 
+  var disableForm = function () {
+    adForm.classList.add('ad-form--disabled');
+    adForm.reset();
+    toggleFieldsets(true);
+  };
+
+  var removeResultMessage = function (evt) {
+    evt.preventDefault();
+    document.removeEventListener('click', onDocumentClick);
+    document.removeEventListener('keydown', onDocumentEscPress);
+    document.querySelector('.result-message').remove();
+  };
+
+  var onDocumentClick = function (evt) {
+    removeResultMessage(evt);
+  };
+
+  var onDocumentEscPress = function (evt) {
+    if (evt.key === 'Escape') {
+      removeResultMessage(evt);
+    }
+  };
+
+  var onErrorMessageButtonClick = function (evt) {
+    removeResultMessage(evt);
+  };
+
+  var onSuccess = function () {
+    window.main.disablePage();
+    var successMessageElement = successMessageTemplate.cloneNode(true);
+
+    document.querySelector('body').appendChild(successMessageElement);
+    document.querySelector('.success').classList.add('result-message');
+
+    document.addEventListener('click', onDocumentClick);
+    document.addEventListener('keydown', onDocumentEscPress);
+  };
+
+  var onError = function () {
+    var errorMessageElement = errorMessageTemplate.cloneNode(true);
+
+    document.querySelector('main').appendChild(errorMessageElement);
+
+    document.querySelector('.error').classList.add('result-message');
+
+    document.addEventListener('click', onDocumentClick);
+    document.addEventListener('keydown', onDocumentEscPress);
+    document.querySelector('.error__button').addEventListener('click', onErrorMessageButtonClick);
+  };
+
+  adForm.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    window.network.upload(new FormData(adForm), onSuccess, onError);
+  });
+
   capacityInput.addEventListener('change', validateQuantity);
   typeInput.addEventListener('change', getMinimalPrice);
   timeInSelect.addEventListener('change', function () {
@@ -75,7 +132,9 @@
   setAddress(window.main.isPageEnabled);
 
   window.form = {
+    elem: adForm,
     init: initForm,
+    disable: disableForm,
     setAddress: setAddress
   };
 })();

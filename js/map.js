@@ -24,10 +24,24 @@
     pinsBlock.appendChild(pinFragment);
   };
 
-  var initMap = function () {
+  var removePins = function () {
+    var pins = pinsBlock.querySelectorAll('.map__pin');
+    for (var i = 0; i < pins.length; i++) {
+      if (!pins[i].classList.contains('map__pin--main')) {
+        pins[i].remove();
+      }
+    }
+  };
+
+  var initMap = function (pinsData) {
     map.classList.remove('map--faded');
     window.form.setAddress(window.main.isPageEnabled);
-    window.load(renderPins, window.main.onError);
+    renderPins(pinsData);
+  };
+
+  var disableMap = function () {
+    map.classList.add('map--faded');
+    removePins();
   };
 
   mapMainPin.addEventListener('mousedown', function (evt) {
@@ -82,5 +96,6 @@
     element: map,
     mainPin: mapMainPin,
     init: initMap,
+    disable: disableMap
   };
 })();
