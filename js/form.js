@@ -31,10 +31,13 @@
   var getMinimalPrice = function () {
     if (typeInput.value === 'bungalo') {
       priceInput.min = 0;
+      priceInput.placeholder = 0;
     } else if (typeInput.value === 'flat') {
       priceInput.min = 1000;
+      priceInput.placeholder = 1000;
     } else if (typeInput.value === 'house') {
       priceInput.min = 5000;
+      priceInput.placeholder = 5000;
     } else {
       priceInput.min = 10000;
       priceInput.placeholder = 10000;
