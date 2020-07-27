@@ -16,7 +16,7 @@
   };
 
   var getFilteredFlats = function (data) {
-    for (var i = 0; i < data.length; i++) {
+    for (var i = 0; i < window.map.MAX_SIMILAR_PINS_COUNT && i < data.length; i++) {
       if (checkFlat(data[i])) {
         filteredPins.push(data[i]);
       }
