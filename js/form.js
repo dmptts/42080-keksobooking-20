@@ -67,13 +67,13 @@
 
   var onAdFormResetButtonCLick = function (evt) {
     evt.preventDefault();
-    window.main.disablePage();
+    window.map.disablePage();
   };
 
   var initForm = function () {
     adForm.classList.remove('ad-form--disabled');
     toggleFieldsets(false);
-    setAddress(window.main.isPageEnabled);
+    setAddress(window.map.isPageEnabled);
     validateQuantity();
     getMinimalPrice();
     adForm.addEventListener('submit', onAdFormSubmit);
@@ -110,7 +110,7 @@
   };
 
   var onSuccess = function () {
-    window.main.disablePage();
+    window.map.disablePage();
     var successMessageElement = successMessageTemplate.cloneNode(true);
 
     document.querySelector('body').appendChild(successMessageElement);
@@ -142,7 +142,7 @@
   });
 
   toggleFieldsets(false);
-  setAddress(window.main.isPageEnabled);
+  setAddress(window.map.isPageEnabled);
 
   window.form = {
     elem: adForm,
