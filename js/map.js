@@ -53,11 +53,9 @@
   };
 
   var removePins = function () {
-    var pins = pinsBlock.querySelectorAll('.map__pin');
+    var pins = pinsBlock.querySelectorAll('.map__pin:not(.map__pin--main)');
     for (var i = 0; i < pins.length; i++) {
-      if (!pins[i].classList.contains('map__pin--main')) {
-        pins[i].remove();
-      }
+      pins[i].remove();
     }
   };
 
