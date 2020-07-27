@@ -13,6 +13,7 @@
   var disableFilters = function () {
     filters.style.opacity = 0;
     filters.reset();
+    filters.removeEventListener('change', onFlatTypeFilterChange);
   };
 
   var filterFlatsByType = function () {
