@@ -23,7 +23,7 @@
     mapMainPin.removeEventListener('keydown', onMainPinEnterPress);
     initMap();
     window.form.init();
-    window.network.load(window.map.onSuccess, window.map.onError);
+    window.network.load(onSuccess, onError);
   };
 
   var disablePage = function () {
@@ -162,9 +162,6 @@
     pinsData: [],
     renderPins: renderPins,
     removePins: removePins,
-    disablePage: disablePage,
-    disableMap: disableMap,
-    onSuccess: onSuccess,
-    onError: onError
+    disablePage: disablePage
   };
 })();

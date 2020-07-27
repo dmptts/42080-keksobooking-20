@@ -145,7 +145,6 @@
   setAddress();
 
   window.form = {
-    elem: adForm,
     init: initForm,
     disable: disableForm,
     setAddress: setAddress
