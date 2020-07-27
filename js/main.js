@@ -1,8 +1,6 @@
 'use strict';
 
 (function () {
-  var isPageEnabled = false;
-
   var onMainPinMousedown = function (evt) {
     if (evt.button === 0) {
       evt.preventDefault();
@@ -18,7 +16,7 @@
   };
 
   var enablePage = function () {
-    isPageEnabled = true;
+    window.main.isPageEnabled = true;
     window.map.mainPin.removeEventListener('mousedown', onMainPinMousedown);
     window.map.mainPin.removeEventListener('keydown', onMainPinEnterPress);
     window.map.init();
@@ -27,18 +25,19 @@
   };
 
   var disablePage = function () {
-    isPageEnabled = false;
+    window.main.isPageEnabled = false;
     window.map.mainPin.addEventListener('mousedown', onMainPinMousedown);
     window.map.mainPin.addEventListener('keydown', onMainPinEnterPress);
     window.map.disable();
     window.form.disable();
+    window.filter.disable();
   };
 
   window.map.mainPin.addEventListener('mousedown', onMainPinMousedown);
   window.map.mainPin.addEventListener('keydown', onMainPinEnterPress);
 
   window.main = {
-    isPageEnabled: isPageEnabled,
+    isPageEnabled: false,
     disablePage: disablePage
   };
 })();

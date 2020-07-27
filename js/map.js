@@ -15,13 +15,12 @@
   var MAP_MAIN_PIN_DEFAULT_Y = mapMainPin.style.top;
   var pinsBlock = document.querySelector('.map__pins');
   var pinFragment = document.createDocumentFragment();
-  var pinsData = [];
   var mapErrorBlock;
 
-  var renderPins = function () {
-    for (var i = 0; i < MAX_SIMILAR_PINS_COUNT; i++) {
-      if (pinsData[i].offer) {
-        pinFragment.appendChild(window.pin.create(pinsData[i]));
+  var renderPins = function (pins) {
+    for (var i = 0; i < MAX_SIMILAR_PINS_COUNT && i < pins.length; i++) {
+      if (pins[i].offer) {
+        pinFragment.appendChild(window.pin.create(pins[i]));
       }
     }
 
@@ -48,8 +47,8 @@
   };
 
   var onSuccess = function (responseData) {
-    pinsData = responseData;
-    renderPins();
+    window.map.pinsData = responseData;
+    renderPins(window.map.pinsData);
     window.filter.init();
 
     if (mapErrorBlock) {
@@ -124,8 +123,10 @@
     MAIN_PIN_PEAK_HEIGTH: MAIN_PIN_PEAK_HEIGTH,
     element: map,
     mainPin: mapMainPin,
-    pinsData: pinsData,
+    pinsData: [],
     init: initMap,
+    renderPins: renderPins,
+    removePins: removePins,
     disable: disableMap,
     onSuccess: onSuccess,
     onError: onError
