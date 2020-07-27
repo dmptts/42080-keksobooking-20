@@ -11,8 +11,8 @@
   var map = document.querySelector('.map');
   var mapWidth = Number(getComputedStyle(map).width.slice(0, -2));
   var mapMainPin = document.querySelector('.map__pin--main');
-  var MAP_MAIN_PIN_DEFAULT_X = mapMainPin.style.left;
-  var MAP_MAIN_PIN_DEFAULT_Y = mapMainPin.style.top;
+  var mapMainPinDefaultX = mapMainPin.style.left;
+  var mapMainPinDefaultY = mapMainPin.style.top;
   var pinsBlock = document.querySelector('.map__pins');
   var pinFragment = document.createDocumentFragment();
   var mapErrorBlock;
@@ -37,8 +37,8 @@
   };
 
   var setDefaultMainPinCoords = function () {
-    mapMainPin.style.left = MAP_MAIN_PIN_DEFAULT_X;
-    mapMainPin.style.top = MAP_MAIN_PIN_DEFAULT_Y;
+    mapMainPin.style.left = mapMainPinDefaultX;
+    mapMainPin.style.top = mapMainPinDefaultY;
   };
 
   var initMap = function () {

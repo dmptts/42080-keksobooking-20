@@ -2,37 +2,42 @@
 
 (function () {
   var filters = document.querySelector('.map__filters');
-  var flatTypeFilter = document.querySelector('#housing-type');
+  var filterType = document.querySelector('#housing-type');
   var filteredPins = [];
 
   var initFilters = function () {
     filters.style.opacity = 1;
-    filters.addEventListener('change', onFlatTypeFilterChange);
+    filters.addEventListener('change', onFiltersChange);
   };
 
   var disableFilters = function () {
     filters.style.opacity = 0;
     filters.reset();
-    filters.removeEventListener('change', onFlatTypeFilterChange);
   };
 
-  var filterFlatsByType = function () {
-    window.map.removePins();
-
-    if (flatTypeFilter.value !== 'any') {
-      filteredPins = window.map.pinsData.filter(function (it) {
-        return it.offer.type === flatTypeFilter.value;
-      });
-      window.map.renderPins(filteredPins);
-    } else {
-      window.map.renderPins(window.map.pinsData);
+  var getFilteredFlats = function (data) {
+    for (var i = 0; i < data.length; i++) {
+      if (checkFlat(data[i])) {
+        filteredPins.push(data[i]);
+      }
     }
   };
 
-  var onFlatTypeFilterChange = function (evt) {
+  var checkFlat = function (flat) {
+    return (filterByType(flat)); // Здесь позже будут другие функции фильтра
+  };
+
+  var filterByType = function (flat) {
+    return flat.offer.type === filterType.value || filterType.value === 'any';
+  };
+
+  var onFiltersChange = function (evt) {
     evt.preventDefault();
     window.card.remove();
-    filterFlatsByType();
+    window.map.removePins();
+    filteredPins = [];
+    getFilteredFlats(window.map.pinsData);
+    window.map.renderPins(filteredPins);
   };
 
   filters.style.opacity = 0;
