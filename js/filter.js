@@ -6,12 +6,12 @@
   var filteredPins = [];
 
   var initFilters = function () {
-    filters.style.opacity = 1;
+    filters.classList.remove('map__filters--hidden');
     filters.addEventListener('change', onFiltersChange);
   };
 
   var disableFilters = function () {
-    filters.style.opacity = 0;
+    filters.classList.add('map__filters--hidden');
     filters.reset();
   };
 
@@ -40,7 +40,7 @@
     window.map.renderPins(filteredPins);
   };
 
-  filters.style.opacity = 0;
+  filters.classList.add('map__filters--hidden');
 
   window.filter = {
     init: initFilters,
