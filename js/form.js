@@ -48,9 +48,9 @@
     synchronizedInput.value = changedInput.value;
   };
 
-  var setAddress = function (pageState) {
+  var setAddress = function () {
     var mainPinX = window.map.mainPin.offsetLeft + window.map.MAIN_PIN_WIDTH / 2;
-    var mainPinY = pageState ? window.map.mainPin.offsetTop + window.map.MAIN_PIN_HEIGTH + window.map.MAIN_PIN_PEAK_HEIGTH : window.map.mainPin.offsetTop - window.map.MAIN_PIN_HEIGTH / 2;
+    var mainPinY = window.map.isPageEnabled ? window.map.mainPin.offsetTop + window.map.MAIN_PIN_HEIGTH + window.map.MAIN_PIN_PEAK_HEIGTH : window.map.mainPin.offsetTop - window.map.MAIN_PIN_HEIGTH / 2;
     addressInput.value = mainPinX + ', ' + mainPinY;
   };
 
@@ -73,7 +73,7 @@
   var initForm = function () {
     adForm.classList.remove('ad-form--disabled');
     toggleFieldsets(false);
-    setAddress(window.map.isPageEnabled);
+    setAddress();
     validateQuantity();
     getMinimalPrice();
     adForm.addEventListener('submit', onAdFormSubmit);
@@ -142,7 +142,7 @@
   });
 
   toggleFieldsets(false);
-  setAddress(window.map.isPageEnabled);
+  setAddress();
 
   window.form = {
     elem: adForm,

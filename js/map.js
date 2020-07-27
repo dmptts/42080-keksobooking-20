@@ -66,7 +66,7 @@
 
   var initMap = function () {
     map.classList.remove('map--faded');
-    window.form.setAddress(window.map.isPageEnabled);
+    window.form.setAddress();
   };
 
   var onSuccess = function (responseData) {
@@ -139,7 +139,7 @@
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
 
-      window.form.setAddress(window.map.isPageEnabled);
+      window.form.setAddress();
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
     };
@@ -152,10 +152,11 @@
   mapMainPin.addEventListener('keydown', onMainPinEnterPress);
 
   window.map = {
-    isPageEnabled: false,
+    MAX_SIMILAR_PINS_COUNT: MAX_SIMILAR_PINS_COUNT,
     MAIN_PIN_WIDTH: MAIN_PIN_WIDTH,
     MAIN_PIN_HEIGTH: MAIN_PIN_HEIGTH,
     MAIN_PIN_PEAK_HEIGTH: MAIN_PIN_PEAK_HEIGTH,
+    isPageEnabled: false,
     element: map,
     mainPin: mapMainPin,
     pinsData: [],
