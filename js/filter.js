@@ -2,7 +2,7 @@
 
 (function () {
   var filters = document.querySelector('.map__filters');
-  var filterInputs = filters.querySelectorAll('.map__filter, .map__checkbox');
+  var filterInputs = filters.querySelectorAll('.map__filter, .map__features');
   var filterType = document.querySelector('#housing-type');
 
   var initFilters = function () {
