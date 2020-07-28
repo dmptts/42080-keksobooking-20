@@ -12,6 +12,7 @@
   var typeInput = document.querySelector('#type');
   var timeInSelect = document.querySelector('#timein');
   var timeOutSelect = document.querySelector('#timeout');
+  var adFormResetButton = adForm.querySelector('.ad-form__reset');
   var successMessageTemplate = document.querySelector('#success').content;
   var errorMessageTemplate = document.querySelector('#error').content;
 
@@ -30,10 +31,13 @@
   var getMinimalPrice = function () {
     if (typeInput.value === 'bungalo') {
       priceInput.min = 0;
+      priceInput.placeholder = 0;
     } else if (typeInput.value === 'flat') {
       priceInput.min = 1000;
+      priceInput.placeholder = 1000;
     } else if (typeInput.value === 'house') {
       priceInput.min = 5000;
+      priceInput.placeholder = 5000;
     } else {
       priceInput.min = 10000;
       priceInput.placeholder = 10000;
@@ -44,30 +48,44 @@
     synchronizedInput.value = changedInput.value;
   };
 
-  var setAddress = function (pageState) {
+  var setAddress = function () {
     var mainPinX = window.map.mainPin.offsetLeft + window.map.MAIN_PIN_WIDTH / 2;
-    var mainPinY = pageState ? window.map.mainPin.offsetTop + window.map.MAIN_PIN_HEIGTH + window.map.MAIN_PIN_PEAK_HEIGTH : window.map.mainPin.offsetTop - window.map.MAIN_PIN_HEIGTH / 2;
+    var mainPinY = window.map.isPageEnabled ? window.map.mainPin.offsetTop + window.map.MAIN_PIN_HEIGTH + window.map.MAIN_PIN_PEAK_HEIGTH : window.map.mainPin.offsetTop - window.map.MAIN_PIN_HEIGTH / 2;
     addressInput.value = mainPinX + ', ' + mainPinY;
   };
 
-  var toggleFieldsets = function (isDisabled) {
-    for (var i = 0; i < adFormFieldsets.length; i++) {
-      adFormFieldsets[i].disabled = isDisabled;
+  var toggleInputs = function (inputCollection, isDisabled) {
+    for (var i = 0; i < inputCollection.length; i++) {
+      inputCollection[i].disabled = isDisabled;
     }
+  };
+
+  var onAdFormSubmit = function (evt) {
+    evt.preventDefault();
+    window.network.upload(new FormData(adForm), onSuccess, onError);
+  };
+
+  var onAdFormResetButtonCLick = function (evt) {
+    evt.preventDefault();
+    window.map.disablePage();
   };
 
   var initForm = function () {
     adForm.classList.remove('ad-form--disabled');
-    toggleFieldsets(false);
-    setAddress(window.main.isPageEnabled);
+    toggleInputs(adFormFieldsets, false);
+    setAddress();
     validateQuantity();
     getMinimalPrice();
+    adForm.addEventListener('submit', onAdFormSubmit);
+    adFormResetButton.addEventListener('click', onAdFormResetButtonCLick);
   };
 
   var disableForm = function () {
     adForm.classList.add('ad-form--disabled');
     adForm.reset();
-    toggleFieldsets(true);
+    toggleInputs(adFormFieldsets, true);
+    adForm.removeEventListener('submit', onAdFormSubmit);
+    adFormResetButton.removeEventListener('click', onAdFormResetButtonCLick);
   };
 
   var removeResultMessage = function (evt) {
@@ -92,7 +110,7 @@
   };
 
   var onSuccess = function () {
-    window.main.disablePage();
+    window.map.disablePage();
     var successMessageElement = successMessageTemplate.cloneNode(true);
 
     document.querySelector('body').appendChild(successMessageElement);
@@ -114,11 +132,6 @@
     document.querySelector('.error__button').addEventListener('click', onErrorMessageButtonClick);
   };
 
-  adForm.addEventListener('submit', function (evt) {
-    evt.preventDefault();
-    window.network.upload(new FormData(adForm), onSuccess, onError);
-  });
-
   capacityInput.addEventListener('change', validateQuantity);
   typeInput.addEventListener('change', getMinimalPrice);
   timeInSelect.addEventListener('change', function () {
@@ -128,13 +141,13 @@
     synchronizeTimes(timeOutSelect, timeInSelect);
   });
 
-  toggleFieldsets(false);
-  setAddress(window.main.isPageEnabled);
+  toggleInputs(adFormFieldsets, true);
+  setAddress();
 
   window.form = {
-    elem: adForm,
     init: initForm,
     disable: disableForm,
+    toggleInputs: toggleInputs,
     setAddress: setAddress
   };
 })();
