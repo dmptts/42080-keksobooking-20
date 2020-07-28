@@ -2,7 +2,7 @@
 
 (function () {
   var filters = document.querySelector('.map__filters');
-  var filterInputs = filters.querySelectorAll('.map__filter');
+  var filterInputs = filters.querySelectorAll('.map__filter, .map__checkbox');
   var filterType = document.querySelector('#housing-type');
 
   var initFilters = function () {
@@ -51,6 +51,6 @@
   window.filter = {
     init: initFilters,
     disable: disableFilters,
-    get: getFilteredFlats
+    get: getFilteredFlats,
   };
 })();

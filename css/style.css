@@ -335,7 +335,8 @@ fieldset {
   opacity: 1;
 }
 
-.map__filter:disabled {
+.map__filter:disabled,
+.map__checkbox:disabled + label {
   cursor: default;
 }
 
