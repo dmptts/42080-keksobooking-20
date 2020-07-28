@@ -54,9 +54,9 @@
     addressInput.value = mainPinX + ', ' + mainPinY;
   };
 
-  var toggleFieldsets = function (isDisabled) {
-    for (var i = 0; i < adFormFieldsets.length; i++) {
-      adFormFieldsets[i].disabled = isDisabled;
+  var toggleInputs = function (inputCollection, isDisabled) {
+    for (var i = 0; i < inputCollection.length; i++) {
+      inputCollection[i].disabled = isDisabled;
     }
   };
 
@@ -72,7 +72,7 @@
 
   var initForm = function () {
     adForm.classList.remove('ad-form--disabled');
-    toggleFieldsets(false);
+    toggleInputs(adFormFieldsets, false);
     setAddress();
     validateQuantity();
     getMinimalPrice();
@@ -83,7 +83,7 @@
   var disableForm = function () {
     adForm.classList.add('ad-form--disabled');
     adForm.reset();
-    toggleFieldsets(true);
+    toggleInputs(adFormFieldsets, true);
     adForm.removeEventListener('submit', onAdFormSubmit);
     adFormResetButton.removeEventListener('click', onAdFormResetButtonCLick);
   };
@@ -141,12 +141,13 @@
     synchronizeTimes(timeOutSelect, timeInSelect);
   });
 
-  toggleFieldsets(false);
+  toggleInputs(adFormFieldsets, true);
   setAddress();
 
   window.form = {
     init: initForm,
     disable: disableForm,
+    toggleInputs: toggleInputs,
     setAddress: setAddress
   };
 })();

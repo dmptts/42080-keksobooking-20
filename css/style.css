@@ -335,6 +335,10 @@ fieldset {
   opacity: 1;
 }
 
+.map__filter:disabled {
+  cursor: default;
+}
+
 .map--faded .map__filters {
   opacity: 0;
 }
@@ -581,6 +585,11 @@ fieldset {
   min-height: 90px;
 
   font-size: 14px;
+}
+
+.ad-form__element:disabled input,
+.ad-form__element:disabled select {
+  cursor: default;
 }
 
 .ad-form__element--wide {

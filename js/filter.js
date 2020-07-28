@@ -2,15 +2,18 @@
 
 (function () {
   var filters = document.querySelector('.map__filters');
+  var filterInputs = filters.querySelectorAll('.map__filter');
   var filterType = document.querySelector('#housing-type');
 
   var initFilters = function () {
     filters.classList.remove('map__filters--hidden');
+    window.form.toggleInputs(filterInputs, false);
     filters.addEventListener('change', onFiltersChange);
   };
 
   var disableFilters = function () {
     filters.classList.add('map__filters--hidden');
+    window.form.toggleInputs(filterInputs, true);
     filters.reset();
   };
 
@@ -43,7 +46,7 @@
     window.map.renderPins(window.map.pinsData);
   };
 
-  filters.classList.add('map__filters--hidden');
+  disableFilters();
 
   window.filter = {
     init: initFilters,
