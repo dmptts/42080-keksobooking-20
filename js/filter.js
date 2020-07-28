@@ -72,10 +72,19 @@
   };
 
   var onFiltersChange = function (evt) {
+    var lastTimeout;
+
     evt.preventDefault();
     window.card.remove();
-    window.map.removePins();
-    window.map.renderPins(window.map.pinsData);
+
+    if (lastTimeout) {
+      window.clearTimeout(lastTimeout);
+    }
+
+    lastTimeout = window.setTimeout(function () {
+      window.map.removePins();
+      window.map.renderPins(window.map.pinsData);
+    }, 500);
   };
 
   disableFilters();
