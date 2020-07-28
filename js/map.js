@@ -6,7 +6,7 @@
   var MAIN_PIN_PEAK_HEIGTH = 22;
   var COORDINATES_Y_MIN = 130;
   var COORDINATES_Y_MAX = 630;
-  var MAX_SIMILAR_PINS_COUNT = 5;
+  var MAX_PINS_COUNT = 5;
 
   var map = document.querySelector('.map');
   var mapWidth = Number(getComputedStyle(map).width.slice(0, -2));
@@ -36,7 +36,7 @@
   };
 
   var renderPins = function (pins) {
-    for (var i = 0; i < MAX_SIMILAR_PINS_COUNT && i < pins.length; i++) {
+    for (var i = 0; i < MAX_PINS_COUNT && i < pins.length; i++) {
       if (pins[i].offer) {
         pinFragment.appendChild(window.pin.create(pins[i]));
       }
@@ -152,7 +152,7 @@
   mapMainPin.addEventListener('keydown', onMainPinEnterPress);
 
   window.map = {
-    MAX_SIMILAR_PINS_COUNT: MAX_SIMILAR_PINS_COUNT,
+    MAX_PINS_COUNT: MAX_PINS_COUNT,
     MAIN_PIN_WIDTH: MAIN_PIN_WIDTH,
     MAIN_PIN_HEIGTH: MAIN_PIN_HEIGTH,
     MAIN_PIN_PEAK_HEIGTH: MAIN_PIN_PEAK_HEIGTH,
