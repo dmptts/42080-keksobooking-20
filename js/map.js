@@ -36,9 +36,10 @@
   };
 
   var renderPins = function (pins) {
-    for (var i = 0; i < MAX_PINS_COUNT && i < pins.length; i++) {
-      if (pins[i].offer) {
-        pinFragment.appendChild(window.pin.create(pins[i]));
+    var filteredPins = window.filter.get(pins);
+    for (var i = 0; i < filteredPins.length; i++) {
+      if (filteredPins[i].offer) {
+        pinFragment.appendChild(window.pin.create(filteredPins[i]));
       }
     }
 
@@ -66,7 +67,6 @@
 
   var initMap = function () {
     map.classList.remove('map--faded');
-    window.form.setAddress();
   };
 
   var onSuccess = function (responseData) {

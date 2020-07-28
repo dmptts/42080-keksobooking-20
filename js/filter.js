@@ -3,7 +3,6 @@
 (function () {
   var filters = document.querySelector('.map__filters');
   var filterType = document.querySelector('#housing-type');
-  var filteredPins = [];
 
   var initFilters = function () {
     filters.classList.remove('map__filters--hidden');
@@ -16,6 +15,7 @@
   };
 
   var getFilteredFlats = function (data) {
+    var filteredPins = [];
     for (var i = 0; i < data.length; i++) {
       if (filteredPins.length < window.map.MAX_PINS_COUNT) {
         if (checkFlat(data[i])) {
@@ -25,6 +25,7 @@
         break;
       }
     }
+    return filteredPins;
   };
 
   var checkFlat = function (flat) {
@@ -39,15 +40,14 @@
     evt.preventDefault();
     window.card.remove();
     window.map.removePins();
-    filteredPins = [];
-    getFilteredFlats(window.map.pinsData);
-    window.map.renderPins(filteredPins);
+    window.map.renderPins(window.map.pinsData);
   };
 
   filters.classList.add('map__filters--hidden');
 
   window.filter = {
     init: initFilters,
-    disable: disableFilters
+    disable: disableFilters,
+    get: getFilteredFlats
   };
 })();
