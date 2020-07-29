@@ -81,7 +81,7 @@
 
   var filterByFeatures = function (flat) {
     var checkedFeatures = filterFeatures.querySelectorAll(':checked');
-    return Array.from(checkedFeatures).every(function (checkedFeature) {
+    return [].every.call(checkedFeatures, function (checkedFeature) {
       return flat.offer.features.includes(checkedFeature.value);
     });
   };
