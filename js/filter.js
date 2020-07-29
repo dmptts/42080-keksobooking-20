@@ -43,10 +43,8 @@
   var getFilteredFlats = function (data) {
     var filteredPins = [];
     for (var i = 0; i < data.length; i++) {
-      if (filteredPins.length < window.map.MAX_PINS_COUNT) {
-        if (checkFlat(data[i])) {
-          filteredPins.push(data[i]);
-        }
+      if (filteredPins.length < window.map.MAX_PINS_COUNT && checkFlat(data[i])) {
+        filteredPins.push(data[i]);
       }
     }
     return filteredPins;

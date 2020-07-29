@@ -13,19 +13,19 @@
   var card;
 
   var filterFeatures = function (popupElement, flatObj) {
-    var popupFeaturesList = popupElement.querySelectorAll('.popup__features');
+    var popupFeaturesList = popupElement.querySelector('.popup__features');
     var popupFeatureItems = popupElement.querySelectorAll('.popup__feature');
 
     for (var i = 0; i < popupFeatureItems.length; i++) {
       if (!checkFeatureAvailabililty(popupFeatureItems, flatObj, i)) {
-        popupFeaturesList[0].removeChild(popupFeatureItems[i]);
+        popupFeaturesList.removeChild(popupFeatureItems[i]);
       }
     }
   };
 
   var checkFeatureAvailabililty = function (popupFeatureItems, flatObj, index) {
-    for (var j = 0; j < flatObj.offer.features.length; j++) {
-      if (popupFeatureItems[index].classList.contains('popup__feature--' + flatObj.offer.features[j])) {
+    for (var i = 0; i < flatObj.offer.features.length; i++) {
+      if (popupFeatureItems[index].classList.contains('popup__feature--' + flatObj.offer.features[i])) {
         return true;
       }
     }
@@ -74,6 +74,7 @@
   var renderCard = function (pinObj) {
     window.map.element.insertBefore(createCard(pinObj), mapFilter);
     document.addEventListener('keydown', onDocumentEcsPress);
+    // Поиск card связан с тем, что createCard возвращает document-template, до вставки на страницу записать в переменную не удастся
     card = document.querySelector('.popup');
   };
 
