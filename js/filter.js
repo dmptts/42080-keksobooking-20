@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var DEBOUNCE_INTERVAL = 2000;
+  var DEBOUNCE_INTERVAL = 500;
   var LOW_PRICE = 10000;
   var HIGH_PRICE = 50000;
   var FILTER_ANY_VALUE = 'any';
