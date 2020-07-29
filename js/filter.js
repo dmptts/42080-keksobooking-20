@@ -49,8 +49,6 @@
         if (checkFlat(data[i])) {
           filteredPins.push(data[i]);
         }
-      } else {
-        break;
       }
     }
     return filteredPins;
