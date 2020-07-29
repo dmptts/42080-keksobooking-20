@@ -44,8 +44,18 @@
     }
   };
 
-  var synchronizeTimes = function (changedInput, synchronizedInput) {
+  var syncTimes = function (changedInput, synchronizedInput) {
     synchronizedInput.value = changedInput.value;
+  };
+
+  var onTimeInSelectChange = function (evt) {
+    evt.preventDefault();
+    syncTimes(timeInSelect, timeOutSelect);
+  };
+
+  var onTimeOutSelectChange = function (evt) {
+    evt.preventDefault();
+    syncTimes(timeOutSelect, timeInSelect);
   };
 
   var setAddress = function () {
@@ -76,6 +86,10 @@
     setAddress();
     validateQuantity();
     getMinimalPrice();
+    capacityInput.addEventListener('change', validateQuantity);
+    typeInput.addEventListener('change', getMinimalPrice);
+    timeInSelect.addEventListener('change', onTimeInSelectChange);
+    timeOutSelect.addEventListener('change', onTimeOutSelectChange);
     adForm.addEventListener('submit', onAdFormSubmit);
     adFormResetButton.addEventListener('click', onAdFormResetButtonCLick);
   };
@@ -83,7 +97,12 @@
   var disableForm = function () {
     adForm.classList.add('ad-form--disabled');
     adForm.reset();
+    setAddress();
     toggleInputs(adFormFieldsets, true);
+    capacityInput.removeEventListener('change', validateQuantity);
+    typeInput.removeEventListener('change', getMinimalPrice);
+    timeInSelect.removeEventListener('change', onTimeInSelectChange);
+    timeOutSelect.removeEventListener('change', onTimeOutSelectChange);
     adForm.removeEventListener('submit', onAdFormSubmit);
     adFormResetButton.removeEventListener('click', onAdFormResetButtonCLick);
   };
@@ -131,15 +150,6 @@
     document.addEventListener('keydown', onDocumentEscPress);
     document.querySelector('.error__button').addEventListener('click', onErrorMessageButtonClick);
   };
-
-  capacityInput.addEventListener('change', validateQuantity);
-  typeInput.addEventListener('change', getMinimalPrice);
-  timeInSelect.addEventListener('change', function () {
-    synchronizeTimes(timeInSelect, timeOutSelect);
-  });
-  timeOutSelect.addEventListener('change', function () {
-    synchronizeTimes(timeOutSelect, timeInSelect);
-  });
 
   toggleInputs(adFormFieldsets, true);
   setAddress();
