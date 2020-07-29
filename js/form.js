@@ -48,6 +48,7 @@
     synchronizedInput.value = changedInput.value;
   };
 
+<<<<<<< HEAD
   var onTimeInSelectChange = function (evt) {
     evt.preventDefault();
     syncTimes(timeInSelect, timeOutSelect);
@@ -55,6 +56,13 @@
 
   var onTimeOutSelectChange = function (evt) {
     evt.preventDefault();
+=======
+  var onTimeInSelectChange = function () {
+    syncTimes(timeInSelect, timeOutSelect);
+  };
+
+  var onTimeOutSelectChange = function () {
+>>>>>>> 706d58e
     syncTimes(timeOutSelect, timeInSelect);
   };
 
