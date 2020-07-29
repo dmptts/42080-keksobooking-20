@@ -30,16 +30,14 @@
   var initFilters = function () {
     filters.classList.remove('map__filters--hidden');
     window.form.toggleInputs(filterInputs, false);
-    filters.addEventListener('change', function (evt) {
-      evt.preventDefault();
-      onFiltersChange();
-    });
+    filters.addEventListener('change', onFiltersChange);
   };
 
   var disableFilters = function () {
     filters.classList.add('map__filters--hidden');
     window.form.toggleInputs(filterInputs, true);
     filters.reset();
+    filters.removeEventListener('change', onFiltersChange);
   };
 
   var getFilteredFlats = function (data) {
